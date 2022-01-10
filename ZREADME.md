@@ -528,4 +528,67 @@ const Background = styled.div`
     - 一维布局是flex,二维布局是grid.
     - 从内容出发,可伸缩 =>使用grid => flex
     - 从布局出发 => 先规画网格.往网格里填充 => grid
-    
+## 27_使用Css-In-JS状态工程创建自定义组件-Row组件实现
+- <HeaderItem as='div'>用户</HeaderItem> => 这样渲染的就是渲染的是一个div标签
+- 使用emotion渲染非常像react的组件. => 类似于下面的.
+    - 直接阅读官方文档比较好.这里只记录一个使用方式
+```
+import styled from "@emotion/styled";
+import { OmitProps } from "antd/lib/transfer/ListBody";
+
+export const Row = styled.div<{
+    gap?: number | boolean,
+    between?: boolean,
+    marginBootom?: number
+}>`
+display: flex;
+align-items: center;
+justify-content: ${props => props.between ? 'space-between' : undefined};
+margin-bottom:${props => props.marginBootom + 'rem'};
+> *{
+    margin-top: 0 !important;
+    margin-top: 0 !important;
+    margin-right: ${props => typeof props.gap === 'number' ? props.gap + 'rem' : props.gap ? '2rem' : undefined};
+}
+`
+```
+```
+
+import { ProjectListScreen } from './screens/project-list/index';
+import { useAuth } from 'context/auth-context';
+import styled from '@emotion/styled';
+import { Row } from 'components/lib';
+export const AuthenticateApp = () => {
+    const { logout } = useAuth();
+    return <div>
+        {/* 这个代表的是目前的整个登录后的状态 */}
+        {/* 如果是直接使用方法名的话,还可以这么写的 */}
+        <Containter>
+            <Header between={true}>
+                <HeaderLeft gap={true}>
+                    <h2>LOGO</h2>
+                    <h2>项目</h2>
+                    <h2>用户</h2>
+                </HeaderLeft>
+                <HeaderRight>
+                    <button onClick={logout}>登出</button>
+                </HeaderRight>
+            </Header>
+            <Main>
+                <ProjectListScreen />
+            </Main>
+        </Containter>
+    </div>
+}
+
+const Containter = styled.header`
+display: grid;
+grid-template-rows: 6rem 1fr 6rem;
+height: 100vh;
+`;
+const Header = styled(Row)``;
+const Main = styled.main``;
+const HeaderLeft = styled(Row)``;
+const HeaderRight = styled.div``;
+const HeaderItem = styled.h3`margin-right:3rem`;
+```
