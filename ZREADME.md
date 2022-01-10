@@ -504,3 +504,28 @@ type Omit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>;
     - 设置为font-size = 10px. => 那么就是10px. => 就比较容易去计算
 - 安装命令 : yarn add @emotion/react @emotion/styled
 
+```
+// 一个简易的使用demo
+import styled from '@emotion/styled'
+
+<Background />
+
+const Background = styled.div`
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed; // 决定了背景图片是否会随着我们页面的滑动而一起滑动
+    background-position: left bottom , right bottom;
+    background-size: calc(((100vw - 40rem)/2)-3.2rem),calc(((100vw - 40rem)/2)-3.2rem),cover;
+    background-image: url(${left}),url(${right});
+`;
+
+```
+## 26_用Grid和Flexbox布局优化项目列表页面
+- 这节课主要讲了grid布局和flex布局
+- flex和grid布局的区别
+    - 一维布局是flex,二维布局是grid.
+    - 从内容出发,可伸缩 =>使用grid => flex
+    - 从布局出发 => 先规画网格.往网格里填充 => grid
+    
