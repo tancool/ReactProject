@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        // function retVal(data) {
+        //     console.log('我被执行');
+        //     return `123${data}`;
+        // }
+        // function test() {
+        //     return new Promise((resolve, reject) => {
+        //         setTimeout(() => {
+        //             resolve('ok');
+        //         }, 3000);
+        //     }).then(async (data) => {
+        //         return retVal(await data); // 这个是一个await.等待await之后再传递值给retVal
+        //     })
+        // }
+        // const a = test();
+        // console.log(a);
+        // a.then(data => {
+        //     console.log(data);
+        // })
+
+
+
+
+        // function test() {
+        //     return window.localStorage.setItem('hello', 123)
+        // }
+        // const variable = test();
+        // console.log(variable);
+
+        // function setUser() {
+        //     return new Promise((resolve, reject) => {
+        //         setTimeout(() => {
+        //             reject('ok')
+        //         }, 2000)
+        //     }).then((data,err) => {
+        //         console.log(err);
+        //         Promise.reject('errr');
+        //         // return `data${data}`;
+        //     })
+        // };
+        // function log(data,err) {
+        //     console.log(`现在的值是${data}-${err}`);
+        // }
+        // const printLogs = setUser();
+        // printLogs.then((resolve,reject)=>{
+        //     console.log(resolve);
+        //     console.log(reject);
+        // });
+
+        new Promise((resolve, reject) => {
+            resolve('err')
+        }).then((data,b) => { // then传入的是两个回调函数,而不是一个函数传递两个值.
+            console.log(123);
+            console.log(data);
+            console.log(b);
+        }, (err) => {
+            console.log(err);
+        });
+
+        function testObject({a}){ // 这个写法是接受一个对象.其中对象中只接受到a
+            console.log(arguments);
+            console.log(a);
+        }
+        testObject({a:'🚀123',b:45});
+    </script>
+</body>
+
+</html>

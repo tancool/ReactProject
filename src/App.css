@@ -1,0 +1,10 @@
+html{
+  /* 
+  rem 单位
+  em 单位
+   */
+  font-size: 62.5%;
+}
+html body #root .App{
+  min-height: 100vh;
+}
