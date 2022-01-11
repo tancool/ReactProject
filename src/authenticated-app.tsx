@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { Row } from 'components/lib';
 // import softwareLogo from "./assets/software-logo.svg";
 import { ReactComponent as SoftwareLogo } from './assets/software-logo.svg' // 这就意味着,这个是一个React组件
-import { Dropdown, Menu } from 'antd';
+import { Button, Dropdown, Menu } from 'antd';
 // 这就意味着这个图片是一个组件
 export const AuthenticateApp = () => {
     const { logout, user } = useAuth();
@@ -24,12 +24,12 @@ export const AuthenticateApp = () => {
                     <Dropdown overlay={
                         <Menu>
                             <Menu.Item key={'logout'}>
-                                <a href="#" onClick={logout}>登出</a>
+                                <Button onClick={logout}>登出</Button>
                             </Menu.Item>
                         </Menu>
                     }>
                         {/* 取消默认事件,防止页面刷新 */}
-                        <a onClick={e => e.preventDefault()}>你好 {user?.name || '用户'}</a>
+                        <Button onClick={e => e.preventDefault()}>你好 {user?.name || '用户'}</Button>
                     </Dropdown>
                 </HeaderRight>
             </Header>

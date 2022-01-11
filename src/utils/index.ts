@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 
-export const isFalsy = (value: any) => value === 0 ? false : !value;
+export const isFalsy = (value: unknown) => value === 0 ? false : !value;
+// 在一个函数里,改变传入的对象本身是不好的行为.不要去改变原对象
 
-// 在一个函数里,改变传入的对象本身是不好的
-export const cleanObject = (object: object) => {
+export const isVoid = (value: unknown) => value == undefined || value == null || value == ''; // 解决会误删除false的bug
+export const cleanObject = (object: { [key: string]: unknown }) => {
     const result = { ...object }; // 这个是等价于 Object.assign({},object);
 
     Object.keys(result).forEach(key => {
-        // @ts-ignore
         const value = result[key];
-        if (isFalsy(value)) {
-            // @ts-ignore
+        if (isVoid(value)) {
             delete result[key]
         }
     })
