@@ -592,3 +592,16 @@ const HeaderLeft = styled(Row)``;
 const HeaderRight = styled.div``;
 const HeaderItem = styled.h3`margin-right:3rem`;
 ```
+
+## 28_完善项目列表页面样式
+- React中限制还是蛮大的.没法使用直接子元素之类的CSS标签.
+    - 也没法使用:hover之类的伪元素以及伪类.
+- 所以可以使用emotion的行内样式
+```
+// 找到的结局办法如下.emotion11版本和react11的处理办法
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
+```
+- 安装时间管理的package.是dayjs.
+    - moment已经停止维护了
+- 使用svg组件代替img标签,达到更好的自定义效果

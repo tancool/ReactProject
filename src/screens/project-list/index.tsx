@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import qs from 'qs';
 import { cleanObject } from 'utils';
 import { SearchPanel } from './search-panel'
 import { List } from './list';
 import { useMount, useDebounce } from './../../utils/index';
 import { useHTTP } from 'utils/http';
+import styled from '@emotion/styled';
 const apiUrl = process.env.REACT_APP_API_URL;
 /**
  * 这个需要使用Json-Server才能得到数据,这里做个备注.
@@ -39,8 +39,12 @@ export const ProjectListScreen = () => {
         //     }
         // })
     }); // 第三个参数是监听
-    return <div>
+    return <Container>
+        <h2>项目列表</h2>
         <SearchPanel param={param} setParam={setParam} users={users}></SearchPanel>
         <List list={list} users={users}></List>
-    </div>
+    </Container>
 }
+const Container = styled.div`
+padding: 3.2rem;
+`
