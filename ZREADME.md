@@ -648,3 +648,8 @@ interface ListProps extends TableProps<Project> {
 - 主要讲了前端层面的代码封装:封装完之后的project-list/index.tsx中是非常清爽的.
 
 ## 32_登陆注册页面Loading和Error状态处理.
+- 因为SetState是一个异步操作.
+    - 当同步和异步混用的时候,我们应该用的是try catch
+- 记得熟悉下宏任务和微任务
+
+## 33_用useAsync获取用户信息

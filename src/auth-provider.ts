@@ -7,7 +7,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
 export const getToken = () => window.localStorage.getItem(localStorageKey);
 console.log(getToken());
 
-export const handleUserResponse = ({ user }: { user: User }):User=> {
+export const handleUserResponse = ({ user }: { user: User }): User => {
     window.localStorage.setItem(localStorageKey, user.token || '');
     return user;
 }
@@ -23,7 +23,7 @@ export const login = (data: { username: string, password: string }) => {
             console.log('登录成功');
             return handleUserResponse(await response.json());
         } else {
-            return Promise.reject(data);
+            return Promise.reject(await response.json());
         }
     })
 }
@@ -39,7 +39,7 @@ export const register = (data: { username: string, password: string }) => {
             console.log('注册成功');
             return handleUserResponse(await response.json());
         } else {
-            return Promise.reject(data);
+            return Promise.reject(await response.json());
         }
     })
 }

@@ -1,19 +1,21 @@
 import { useState } from "react"
 import { RegisterScreeen } from "./Register"
 import { LoginScreen } from "./Login"
-import { Button, Card, Divider } from "antd"
+import { Button, Card, Divider, Typography } from "antd"
 import styled from '@emotion/styled'
 import logo from 'assets/logo.svg'
 import left from 'assets/left.svg'
 import right from 'assets/right.svg'
 export const UnaurhenticatedApp = () => {
     const [isRegister, setIsRegister] = useState(false)
+    const [error, setError] = useState<Error | null>(null)
     return <Container style={{ display: 'flex', justifyContent: 'center' }}>
         <Header />
         <Background />
         <ShaowCard>
             <Title>{isRegister ? '请注册' : '请登录'}</Title>
-            {isRegister ? <RegisterScreeen /> : <LoginScreen />}
+            {error ? <Typography.Text type={'danger'}>{error.message}</Typography.Text> : null}
+            {isRegister ? <RegisterScreeen onError={setError}/> : <LoginScreen onError={setError} />}
             <Divider />
             <a onClick={() => { setIsRegister(!isRegister) }}>切换到{isRegister ? '已经有账号了?直接登录' : '没有账号?注册新账号'}</a>
         </ShaowCard>

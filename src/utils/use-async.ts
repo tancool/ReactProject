@@ -19,9 +19,13 @@ const defaultInitialState: State<null> = {
     data: null,
     error: null
 }
+const defaultConfig = {
+    throwOnError: false,
+}
 
 // 用户传入的state
-export const useAsync = <D>(initialState?: State<D>) => {
+export const useAsync = <D>(initialState?: State<D>, initConfig?: typeof defaultConfig) => { // 第二个参数类型的知识点要学习下. course32
+    const config = { ...defaultConfig, ...initConfig }
     const [state, setState] = useState<State<D>>({
         ...defaultInitialState, // 默认的状态
         ...initialState, // 用户传入的State
@@ -49,8 +53,11 @@ export const useAsync = <D>(initialState?: State<D>) => {
                 setData(data);
                 return data;
             }).catch(error => { // 如果报错的处理方式
+                // Carch会消化异常,如果不主动抛出.外面是接受不到的
                 setError(error);
-                return error;
+                console.log(config);
+                if (config.throwOnError) return Promise.reject(error)
+                return error
             })
     }
     return {

@@ -2,14 +2,21 @@ import React, { FormEventHandler, FormEvent } from 'react'
 import { Button, Form, Input } from 'antd'
 import { useAuth } from 'context/auth-context'
 import { LongButton } from 'Unauthenticated-app';
-export const LoginScreen = () => {
-    const apiUrl = process.env.REACT_APP_API_URL;
-    const { login, user } = useAuth(); // 用户名是从这里取出来的.
+import { useAsync } from './../utils/use-async';
+export const LoginScreen = ({ onError }: { onError: (error: Error) => void }) => {
+    const { login, user } = useAuth() // 用户名是从这里取出来的.
+    const { run, isLoading } = useAsync(undefined, { throwOnError: true })
 
-    const handleSubmit = (event: { username: string, password: string }) => {
+    const handleSubmit = async (event: { username: string, password: string }) => {
         // name是由Form.item上面的name决定的
         const { username, password } = event;
-        login({ username, password });
+        try {
+            // await login({ username, password });
+            await run(login({ username, password }))
+        } catch (e) {
+            // 这里应该加上async await. 因为login是一个异步的函数
+            onError(e);
+        }
     }
     return <Form onFinish={handleSubmit}>
         {/* <div>
@@ -22,7 +29,11 @@ export const LoginScreen = () => {
             <Input />
         </Form.Item>
         <Form.Item>
-            <LongButton htmlType='submit' type={'primary'}>登录</LongButton>
+            <LongButton
+                htmlType='submit'
+                type={'primary'}
+                loading={isLoading}
+            >登录</LongButton>
         </Form.Item>
     </Form >
 }
