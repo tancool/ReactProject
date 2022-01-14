@@ -621,3 +621,30 @@ const b = { ...() => { } };
     - [key:string].就像es6中的引入key的方式是一样的.这里的key就如同一个变量.也可以用其他的字符串去代替.
 - 不知道的类型不要写any,而去写unknow是更好的方式.
 - **由于Jira版本问题,控制台会显示报错.但是不影响功能.由于网络问题,这个不做更新.**
+
+## 30_给页面添加Loading和Error状态,增加页面友好性.
+- 这节课主要讲了给页面添加loading和Error状态.
+
+```
+    <List dataSource={list} users={users} loading={isLoading}></List>
+```
+
+```
+// 这个是TS重要的代码.可以允许使用解构赋值的方式去操作.
+interface ListProps extends TableProps<Project> {
+    users: User[]
+};
+<Table
+    pagination={false}
+    ...
+    {
+    ...props
+    }
+>
+</Table >
+```
+
+## 31_用高级Hook-useAsync统一处理Loading和Error状态.
+- 主要讲了前端层面的代码封装:封装完之后的project-list/index.tsx中是非常清爽的.
+
+## 32_登陆注册页面Loading和Error状态处理.
