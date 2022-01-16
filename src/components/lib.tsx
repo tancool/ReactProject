@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { OmitProps } from "antd/lib/transfer/ListBody";
+import { Spin, Typography } from "antd";
 
 export const Row = styled.div<{
     gap?: number | boolean,
@@ -17,3 +17,20 @@ margin-bottom:${props => props.marginBootom + 'rem'};
 }
 `
 // > * 是直接指定子元素
+
+// 展示全局的加载状态
+const FullPage = styled.div`
+height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+`
+export const FullPageLoading = () => <FullPage>
+    <Spin size={'large'}>
+    </Spin>
+</FullPage>
+
+// 展示全局的错误信息
+export const FullPageErrorFallback = ({ error }: { error: Error|null }) => <FullPage>
+    <Typography.Text type={'danger'}>{error?.message}</Typography.Text>
+</FullPage>

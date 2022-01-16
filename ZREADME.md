@@ -653,3 +653,5 @@ interface ListProps extends TableProps<Project> {
 - 记得熟悉下宏任务和微任务
 
 ## 33_用useAsync获取用户信息
+- 主要讲了使用useAsync获取用户信息.
+- 以及加载Loading的信息以及Error的信息
