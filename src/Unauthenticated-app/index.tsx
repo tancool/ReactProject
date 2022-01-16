@@ -12,10 +12,14 @@ export const UnaurhenticatedApp = () => {
     return <Container style={{ display: 'flex', justifyContent: 'center' }}>
         <Header />
         <Background />
+        <Button onClick={() => {
+            // 点击这个button的时候,直接抛出异常.
+            throw new Error('点击抛出一个异常')
+        }}>抛出异常</Button>
         <ShaowCard>
             <Title>{isRegister ? '请注册' : '请登录'}</Title>
             {error ? <Typography.Text type={'danger'}>{error.message}</Typography.Text> : null}
-            {isRegister ? <RegisterScreeen onError={setError}/> : <LoginScreen onError={setError} />}
+            {isRegister ? <RegisterScreeen onError={setError} /> : <LoginScreen onError={setError} />}
             <Divider />
             <a onClick={() => { setIsRegister(!isRegister) }}>切换到{isRegister ? '已经有账号了?直接登录' : '没有账号?注册新账号'}</a>
         </ShaowCard>

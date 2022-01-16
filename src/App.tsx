@@ -5,11 +5,15 @@ import './App.css';
 import { UnaurhenticatedApp } from 'Unauthenticated-app'
 import { AuthenticateApp } from './authenticated-app'
 import { useAuth } from 'context/auth-context'
+import { ErrorBoundary } from 'components/error-boundart';
+import { FullPageErrorFallback } from 'components/lib';
 function App() {
   const { user } = useAuth();
   return (
     <div className="App">
-      {user ? <AuthenticateApp /> : <UnaurhenticatedApp />}
+      <ErrorBoundary fallbackRender={FullPageErrorFallback}>
+        {user ? <AuthenticateApp /> : <UnaurhenticatedApp />}
+      </ErrorBoundary>
     </div>
   );
 }

@@ -655,3 +655,14 @@ interface ListProps extends TableProps<Project> {
 ## 33_用useAsync获取用户信息
 - 主要讲了使用useAsync获取用户信息.
 - 以及加载Loading的信息以及Error的信息
+
+
+## 34_实现Error Boundaries,捕获边界错误
+- 在前几节课讲的是异步请求[HTTP请求]发生错误的时候,是如何处理的.
+- 现在讲的是在渲染阶段抛出的异常的处理.
+- 报错代码信息只会在开发模式种显示,在生产环境中是不会进行显示的,不会受到影响.
+- 如果在渲染阶段出现异常的话,那么整个的组件树都会被卸载掉. since react 16
+    - React团队认为一个错误的UI比一个空白的UI害处会更大一些.
+- 点开React中,两个TS泛型定义P代表的是Props,S代表的是State.
+- 但是通过事件抛出异常的时候,ErrorBoundary是不会被捕获到的.
+- 其实是有一个库的 => react-error-boundary
