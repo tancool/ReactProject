@@ -666,3 +666,27 @@ interface ListProps extends TableProps<Project> {
 - 点开React中,两个TS泛型定义P代表的是Props,S代表的是State.
 - 但是通过事件抛出异常的时候,ErrorBoundary是不会被捕获到的.
 - 其实是有一个库的 => react-error-boundary
+
+## 35_用useRef实现userDocumentTitle-useRef与Hook闭包详解[上]
+- 第一种是使用包=> react helmet
+    - 可以配置header中相关信息的配置.
+- 这种是手动配置的
+```
+export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) => {
+    const oldTitle = document.title
+    console.log('渲染时的title', oldTitle);
+
+    useEffect(() => {
+        document.title = title
+    }, [title])
+
+    useEffect(() => {
+        return () => {
+            if (!keepOnUnmount) { // 当不保留的时候,就显示为页面刚加载的标题
+                console.log('卸载时的oldtitle', oldTitle);
+                document.title = oldTitle;
+            }
+        }
+    }, [])
+}
+```

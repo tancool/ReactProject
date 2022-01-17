@@ -29,3 +29,24 @@ export const useDebounce = <V>(value: V, delay?: number) => {
     }, [value, delay]);
     return debounceValue;
 }
+/**
+ * @param title 标题
+ * @param keepOnUnmount 页面卸载的时候,标题是否保留
+ */
+export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) => {
+    const oldTitle = document.title
+    console.log('渲染时的title', oldTitle);
+
+    useEffect(() => {
+        document.title = title
+    }, [title])
+
+    useEffect(() => {
+        return () => {
+            if (!keepOnUnmount) { // 当不保留的时候,就显示为页面刚加载的标题
+                console.log('卸载时的oldtitle', oldTitle);
+                document.title = oldTitle;
+            }
+        }
+    }, [])
+}

@@ -6,16 +6,14 @@ import styled from '@emotion/styled'
 import logo from 'assets/logo.svg'
 import left from 'assets/left.svg'
 import right from 'assets/right.svg'
+import { useDocumentTitle } from "utils"
 export const UnaurhenticatedApp = () => {
     const [isRegister, setIsRegister] = useState(false)
     const [error, setError] = useState<Error | null>(null)
+    useDocumentTitle('请登录,以继续')
     return <Container style={{ display: 'flex', justifyContent: 'center' }}>
         <Header />
         <Background />
-        <Button onClick={() => {
-            // 点击这个button的时候,直接抛出异常.
-            throw new Error('点击抛出一个异常')
-        }}>抛出异常</Button>
         <ShaowCard>
             <Title>{isRegister ? '请注册' : '请登录'}</Title>
             {error ? <Typography.Text type={'danger'}>{error.message}</Typography.Text> : null}

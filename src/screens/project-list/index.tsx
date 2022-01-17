@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { cleanObject } from 'utils';
+import { cleanObject, useDocumentTitle } from 'utils';
 import { SearchPanel } from './search-panel'
 import { List, Project } from './list';
 import { useMount, useDebounce } from './../../utils/index';
@@ -18,7 +18,8 @@ export const ProjectListScreen = () => {
     const [param, setParam] = useState({
         name: '',
         personId: '',
-    });
+    })
+    useDocumentTitle('项目列表', false)
     // const [users, setUsers] = useState([]);
     const debouncedParam = useDebounce(param, 2000); // 当每次数据执行setXXX的时候，这个函数都会被重新赋值,上个函数也就会被更新.
     // TODO 这一块需要了解下  console.log(debouncedParam); 每次数据更新,都会重新重新执行这个函数.
@@ -55,7 +56,7 @@ export const ProjectListScreen = () => {
         <h2>项目列表</h2>
         <SearchPanel param={param} setParam={setParam} users={users || []}></SearchPanel>
         {error ? <Typography.Text type={'danger'}>{error.message}</Typography.Text> : null}
-        <List dataSource={list || []} users={users||[]} loading={isLoading}></List>
+        <List dataSource={list || []} users={users || []} loading={isLoading}></List>
     </Container>
 }
 const Container = styled.div`
