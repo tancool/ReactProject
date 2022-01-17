@@ -726,3 +726,32 @@ export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) =
 
 - 对于闭包是个隐藏的知识点.可以使用useRef解决隐式闭包的问题,同时,语义更加明确.
     - useRef返回一个可变的ref对象.其中.current属性被初始化为传入的参数(initiaValue).返回的ref对象在组件的整个生命周期内保持不变.
+## 36_添加项目列表和项目详情路由
+- 单页面应用使用路由,是必不可少的.React-Router是应用最为广泛的配置.
+- 安装
+    - yarn add react-router@6 react-router-dom@6
+- React Router 6中,所有的路由配置都需要有一个Routes进行包裹
+    - Route也是一个组件,可以直接进行传值.
+    - `<Route path={'/projects'} element={<ProjectListScreen />} ></ Route>` => 路径匹配到element.
+
+- 以及需要安装 history
+    - 我卸载掉了.没有阅读使用说明.不知道这个是干嘛.现在没有影响到项目进行.
+
+- 报错 : useRoutes() may be used only in the context of a <Router> component.
+    - 需要包裹<Router>,来自react-router-dom
+
+- <Router>就像是自己写的Context,这样就可以在组件间共享信息了.
+    - 路由的参数 / pathName
+- React-router和react-router-dom的关系类似于和React和React-Dom/React-native/React-vr.
+    - react是一个核心的库,里面主要涉及到了一些虚拟的,计算的,理论的逻辑.类似于组件中的State / useEffect的状态.如何来影响虚拟DOM树 / 两次虚拟DOM树的运算
+        - 经过一些列计算,得出的结果就会被React-Dom消费.
+    - 为什么不将所有的放置在一起.
+        - 因为React-Dom主要生活在浏览器的宿主环境中.而这些DOM操作只可以在浏览器中运行.
+        - React-Native是在ios/android来消费react消费的结果.
+    - 而react-router主要是用来管理路由状态.计算此时此刻的路由树是怎样的.
+        - 计算结果就会给react-router-dom来进行消费.或者给native来进行消费.
+
+- link为什么在react-dom中引入.因为link会被渲染为一个a标签.处理事件等等,这些都是和宿主环境强关联的.
+- React-router-dom@6中,当点击的是一个Route下面的Link的时候,就会默认认为要去的是Route的子路由
+    - 就会把ProjectId给直接赋值到Project后面.比如说`/project/6`
+- TS只在静态的时候处理.
