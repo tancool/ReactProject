@@ -690,3 +690,39 @@ export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) =
     }, [])
 }
 ```
+## 35_用useRef实现userDocumentTitle-useRef与Hook闭包详解[下]
+- react hook 与闭包,hook与闭包经典的坑
+```
+// 以下代码解释了react中闭包的相关问题
+        const test = () => {
+            let num = 0
+            const effect = () => {
+                num += 1
+                const message = `现在的num值是${num}`
+                return function unmount() {
+                    console.log(message)
+                }
+            }
+            return effect;
+        }
+        const add = test()
+        const unmount = add()
+        add()
+        add()
+        unmount() // 实际上这个时候打印的还是1.这是由于静态对象的重新赋值的问题
+        // 闭包就是由于函数内部引用外部的变量,所以外部的变量不会被销毁.
+```
+- 而像React中,useMount和useEffect只会在页面加载的时候执行一次.并且里面形成了一个闭包.作用域引用的就是页面加载的时候的变量.在后续无论页面怎么渲染,变量怎么变化.useMount和useEffect都不会再执行了.
+    - 如何避免.每次变量进行变化的时候,都重新更新
+    ```
+    useEffect(()=>{
+        return ()=>{
+            console.log(num)
+        }
+    },[num])//监听num
+    ```
+- 所以在闭包中遇到了依赖问题的时候,已经要首先检查依赖项的处理.
+    - 注意的是,定时器如果引用外部变量,也是一个闭包.
+
+- 对于闭包是个隐藏的知识点.可以使用useRef解决隐式闭包的问题,同时,语义更加明确.
+    - useRef返回一个可变的ref对象.其中.current属性被初始化为传入的参数(initiaValue).返回的ref对象在组件的整个生命周期内保持不变.
