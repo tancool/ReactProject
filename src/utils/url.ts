@@ -1,16 +1,20 @@
+import { useMemo } from "react"
 import { useSearchParams } from "react-router-dom"
 
 /**
  * 返回页面url中,指定键的参数值
  */
-export const useUrlQueryParam = (keys: string[]) => {
+export const useUrlQueryParam = <K extends string>(keys: K[]) => {
     // 不可以直接读取[.] 参数的.
     // 如果直接读取的话,是会进行报错的.
     const [searchParams, setSearchParam] = useSearchParams()
     return [
-        keys.reduce((prev = {}, key: string) => {
+        useMemo(() => keys.reduce((prev, key: K) => {
             return { ...prev, [key]: searchParams.get(key) || '' }
-        }, {} as { [key in string]: string }),
+        }, {} as { [key in K]: string }),
+            [searchParams] // 如果是state放在这个依赖列表里,就不会像对象那么造成无限循环的问题.
+            // 只有在searchParams发生改变的时候,再去进行useMemo运算
+        ),
         setSearchParam
     ] as const
 }

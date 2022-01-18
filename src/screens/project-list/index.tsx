@@ -20,7 +20,8 @@ export const ProjectListScreen = () => {
         name: '',
         personId: '',
     })
-    const param = useUrlQueryParam(['name'])
+    // const [keys,setKeys] = useState<('name'|'personId')[]>(['name','personId']); // 这个是假设给useMemo的依赖
+    const [param] = useUrlQueryParam(['name','personId'])
     useDocumentTitle('项目列表', false)
     // const [users, setUsers] = useState([]);
     const debouncedParam = useDebounce(param, 2000); // 当每次数据执行setXXX的时候，这个函数都会被重新赋值,上个函数也就会被更新.

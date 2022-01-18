@@ -776,3 +776,50 @@ export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) =
 - 所有的类型,都可以去阅读函数签名
 
 - 使用 useSearchParams获得query参数
+
+## 40_使用useMemo解决循环依赖问题
+
+- 只有泛型允许我们进行不指定.根据传入的值,来动态的判断类型.
+- 帮助我们查看,是什么一直渲染页面
+    - yarn add --dev @welldone-software/why-did-you-render
+    - 在组件中引入的话
+    ```
+    ProjectListScreen.whyDidYouRender = true;
+
+    // 如果是Class组件
+    class Test extends React.Component{
+        static whyDidYouRender = true
+    }
+    ```
+- codesandbox可以在线编写一些前端代码
+```
+// 以下代码会造成重估渲染页面
+export default function App(){
+    const obj = {name:'jack'};
+    const [num,setNum] = useState(0);
+    useEffect(()=>{
+        console.log('effect')
+        setNum(num+1) // 由于这里的变化,这其中是会重复进行渲染的.
+    },[obj]); // 因为这里比对的是对象.对象比较的是内存地址.如果是基础数据的话,比对的值.
+    
+    return (
+        <div>
+        </div>
+    )
+}
+```
+- 而像这样
+    - 如果发生数据变化的时候,React不会对比对象的内存地址.而是只有显式的刻意调用setObj的时候.react才会认为obj发生了改变.
+        - 其他时候,都不会认为这个obj发生了改变.
+```
+const [obj,setObj] = useState({name:'jack'})
+useEffect(()=>{
+
+},[obj])
+```
+```
+// 显式的指定类型
+const [keys] = useState<('name'|'personId')[]>(['name','personId']) 
+```
+- 这节课解决了无限循环渲染列表的标题
+- 基本类型可以放在依赖中,组件状态可以放到依赖中.非组件状态的对象绝对不可以放到依赖中
