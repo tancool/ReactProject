@@ -9,22 +9,25 @@ import { Typography } from 'antd';
 import { useAsync } from './../../utils/use-async';
 import { useProjects } from './../../utils/project';
 import { useUsers } from './../../utils/user';
+import { useUrlQueryParam } from 'utils/url';
 const apiUrl = process.env.REACT_APP_API_URL;
 /**
  * 这个需要使用Json-Server才能得到数据,这里做个备注.
 */
 export const ProjectListScreen = () => {
     // param是表单的状态
-    const [param, setParam] = useState({
+    const [, setParam] = useState({
         name: '',
         personId: '',
     })
+    const param = useUrlQueryParam(['name'])
     useDocumentTitle('项目列表', false)
     // const [users, setUsers] = useState([]);
     const debouncedParam = useDebounce(param, 2000); // 当每次数据执行setXXX的时候，这个函数都会被重新赋值,上个函数也就会被更新.
     // TODO 这一块需要了解下  console.log(debouncedParam); 每次数据更新,都会重新重新执行这个函数.
     const { isLoading, error, data: list } = useProjects(debouncedParam);
     const { data: users } = useUsers()
+
     // useEffect(() => {
     //     // client(['projects', { data: cleanObject(debouncedParam) }]); => http返回函数使用 ... 就可以将touple函数修改为普通参数的形式
 

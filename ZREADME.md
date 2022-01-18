@@ -690,7 +690,7 @@ export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) =
     }, [])
 }
 ```
-## 35_用useRef实现userDocumentTitle-useRef与Hook闭包详解[下]
+## 36_用useRef实现userDocumentTitle-useRef与Hook闭包详解[下]
 - react hook 与闭包,hook与闭包经典的坑
 ```
 // 以下代码解释了react中闭包的相关问题
@@ -726,7 +726,7 @@ export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) =
 
 - 对于闭包是个隐藏的知识点.可以使用useRef解决隐式闭包的问题,同时,语义更加明确.
     - useRef返回一个可变的ref对象.其中.current属性被初始化为传入的参数(initiaValue).返回的ref对象在组件的整个生命周期内保持不变.
-## 36_添加项目列表和项目详情路由
+## 37_添加项目列表和项目详情路由
 - 单页面应用使用路由,是必不可少的.React-Router是应用最为广泛的配置.
 - 安装
     - yarn add react-router@6 react-router-dom@6
@@ -755,8 +755,24 @@ export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) =
 - React-router-dom@6中,当点击的是一个Route下面的Link的时候,就会默认认为要去的是Route的子路由
     - 就会把ProjectId给直接赋值到Project后面.比如说`/project/6`
 - TS只在静态的时候处理.
-## 37_添加看板和任务组路由
+## 38_添加看板和任务组路由
 - 这节课主要讲了如何嵌套路由.这个v6-beta版本和现在的版本是有区别的.
     - 注意的是嵌套路由不可以有`/`出现.出现`/`意味着是跟路由
     - react-router-v5的重定向改为了`<Route path='*' element={<Navigate to={'kanban'} />} />`
 - 以及使用点击logo的时候.执行了`window.localtion.origin`跳转到首页
+
+## 39_初步实现useUrlQueryParam管理URL参数状态
+- 单页面应用的特点就是,当切换路由的时候,并不会重新加载文档.无论怎么切换路由,都是会在同一个文档里面.页面也不会进行刷新.
+    - 使用vue / react开发的大部分都是单页面应用.
+
+- 但是比如说通过URL分享一个页面,是自动填入参数的.我们在单页面应用中也需要做到这个.
+    - 要使用到React-Router和React-Hook相结合.
+
+- `as const`
+    - ts会认为这种数组,在ts中也可以称为集合.里面的类型都是应该保持一致的.每一个类型都是一样的.为了做到一样.就让他们都有一个共有的类型. => 这个就是TS实现的
+    - 如果返回最原始的类型,就是使用 as const
+    -   as const 大多数的时候就是为了解决这个问题的
+        - `const a = ['jack', 12, { gender: 'male' }] as const`
+- 所有的类型,都可以去阅读函数签名
+
+- 使用 useSearchParams获得query参数
