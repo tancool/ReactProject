@@ -755,3 +755,8 @@ export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) =
 - React-router-dom@6中,当点击的是一个Route下面的Link的时候,就会默认认为要去的是Route的子路由
     - 就会把ProjectId给直接赋值到Project后面.比如说`/project/6`
 - TS只在静态的时候处理.
+## 37_添加看板和任务组路由
+- 这节课主要讲了如何嵌套路由.这个v6-beta版本和现在的版本是有区别的.
+    - 注意的是嵌套路由不可以有`/`出现.出现`/`意味着是跟路由
+    - react-router-v5的重定向改为了`<Route path='*' element={<Navigate to={'kanban'} />} />`
+- 以及使用点击logo的时候.执行了`window.localtion.origin`跳转到首页

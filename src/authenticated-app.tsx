@@ -6,9 +6,10 @@ import { Row } from 'components/lib';
 // import softwareLogo from "./assets/software-logo.svg";
 import { ReactComponent as SoftwareLogo } from './assets/software-logo.svg' // 这就意味着,这个是一个React组件
 import { Button, Dropdown, Menu } from 'antd';
-import { Navigate, Route, Routes } from "react-router";
+import { Navigate, Outlet, Route, Routes } from "react-router";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ProjectScreen } from 'screens/project';
+import { resetRoute } from 'utils';
 // 这就意味着这个图片是一个组件
 export const AuthenticateApp = () => {
     return (
@@ -24,6 +25,7 @@ export const AuthenticateApp = () => {
                             {/* Route也是一个组件,可以直接进行传值. */}
                             <Route path={'/projects'} element={<ProjectListScreen />} ></ Route>
                             <Route path={'/projects/:projectId/*'} element={<ProjectScreen />}></Route>
+                            <Route path='*' element={<Navigate to={'/projects'} />} />
                         </Routes >
                     </Router >
                 </Main>
@@ -36,7 +38,9 @@ const PageHeader = () => {
     return (<Header between={true}>
         <HeaderLeft gap={true}>
             {/* <img src={softwareLogo} alt="" /> */}
-            <SoftwareLogo width={'20rem'} color='rgb(38,132,255)' />
+            <Button type={'link'} onClick={resetRoute}>
+                <SoftwareLogo width={'20rem'} color='rgb(38,132,255)' />
+            </Button>
             <h2>项目</h2>
             <h2>用户</h2>
         </HeaderLeft>
