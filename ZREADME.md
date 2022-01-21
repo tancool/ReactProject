@@ -834,4 +834,6 @@ const [keys] = useState<('name'|'personId')[]>(['name','personId'])
 - 解决发送数据为String类型的数字.但是后端需要匹配的是Number类型的数字的问题.
     - 解决办法是单独封装了一个通用的组件
 - 透传Props: 允许用户在props中传递更多属性.
-    - 
+
+## 43_抽象user-select组件选择用户
+- 不会包含模版代码的文件是ts文件,包含模板代码的文件是tsx文件
