@@ -829,3 +829,9 @@ const [keys] = useState<('name'|'personId')[]>(['name','personId'])
     - Object.fromEntries 是Object.enteris的你操作.
     - iteartor是一个遍历器.[],{},Map都是部署了iteartor的.部署了iteartor的都可以使用for of 进行操作的
 - 这节课也将了iterator.这个在ES6中是有介绍的.
+
+## 42_实现id-selecttsx解决id类型难题
+- 解决发送数据为String类型的数字.但是后端需要匹配的是Number类型的数字的问题.
+    - 解决办法是单独封装了一个通用的组件
+- 透传Props: 允许用户在props中传递更多属性.
+    - 
