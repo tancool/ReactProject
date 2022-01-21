@@ -3,6 +3,6 @@ import React from 'react';
 if (process.env.NODE_ENV === 'development') {
   const whyDidYouRender = require('@welldone-software/why-did-you-render');
   whyDidYouRender(React, {
-    trackAllPureComponents: true, // 确定是否是跟踪所有组件
+    trackAllPureComponents: false, // 确定是否是跟踪所有组件
   });
 }

@@ -823,3 +823,9 @@ const [keys] = useState<('name'|'personId')[]>(['name','personId'])
 ```
 - 这节课解决了无限循环渲染列表的标题
 - 基本类型可以放在依赖中,组件状态可以放到依赖中.非组件状态的对象绝对不可以放到依赖中
+
+## 41_完成URL状态管理与JS中的iterator讲解
+- unknow表示对象值的类型是没有关系的.
+    - Object.fromEntries 是Object.enteris的你操作.
+    - iteartor是一个遍历器.[],{},Map都是部署了iteartor的.部署了iteartor的都可以使用for of 进行操作的
+- 这节课也将了iterator.这个在ES6中是有介绍的.

@@ -40,6 +40,7 @@ export const SearchPanel = ({ param, setParam, users }: searchPanelProps) => {
         </Form.Item>
         <Form.Item>
             <Select id=""
+            // 这里的value的typeof是字符串.如果匹配不到就会默认显示其value
                 value={param.personId}
                 onChange={val => setParam({
                     ...param,
@@ -47,7 +48,12 @@ export const SearchPanel = ({ param, setParam, users }: searchPanelProps) => {
                 })}
             >
                 <Select.Option value={''}>负责人</Select.Option>
-                {users.map((item: any) => <Select.Option key={item.id} value={item.id}>{item.name}</Select.Option>)}
+                {users.map((item: any) => {
+                    // 这里的nanme是数字.就会发生匹配不上的情况.
+                    // 现在的解决办法是暂时将value中的id转换为string
+                    return <Select.Option key={item.id} value={String(item.id)}>{item.name}</Select.Option>
+                }
+                )}
             </Select>
         </Form.Item>
     </Form>

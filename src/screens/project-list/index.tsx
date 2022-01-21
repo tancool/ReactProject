@@ -16,12 +16,13 @@ const apiUrl = process.env.REACT_APP_API_URL;
 */
 export const ProjectListScreen = () => {
     // param是表单的状态
-    const [, setParam] = useState({
-        name: '',
-        personId: '',
-    })
+    // const [param , setParam] = useState({
+    //     name: '',
+    //     personId: '',
+    // })
     // const [keys,setKeys] = useState<('name'|'personId')[]>(['name','personId']); // 这个是假设给useMemo的依赖
-    const [param] = useUrlQueryParam(['name','personId'])
+    const [param,setParam] = useUrlQueryParam(['name','personId'])
+    
     useDocumentTitle('项目列表', false)
     // const [users, setUsers] = useState([]);
     const debouncedParam = useDebounce(param, 2000); // 当每次数据执行setXXX的时候，这个函数都会被重新赋值,上个函数也就会被更新.

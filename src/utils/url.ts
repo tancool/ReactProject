@@ -1,5 +1,6 @@
 import { useMemo } from "react"
-import { useSearchParams } from "react-router-dom"
+import { URLSearchParamsInit, useSearchParams } from "react-router-dom"
+import { cleanObject } from './index';
 
 /**
  * 返回页面url中,指定键的参数值
@@ -15,7 +16,14 @@ export const useUrlQueryParam = <K extends string>(keys: K[]) => {
             [searchParams] // 如果是state放在这个依赖列表里,就不会像对象那么造成无限循环的问题.
             // 只有在searchParams发生改变的时候,再去进行useMemo运算
         ),
-        setSearchParam
+        (params: Partial<{ [key in K]: unknown }>) => {
+            // 对象的键值必须在key中.
+            // unknow表示对象值的类型是没有关系的.
+            // Object.fromEntries 是Object.enteris的你操作.
+            // iteartor是一个遍历器.[],{},Map都是部署了iteartor的.部署了iteartor的都可以使用for of 进行操作的
+            const o = cleanObject({ ...Object.fromEntries(searchParams), ...params }) as URLSearchParamsInit
+            return setSearchParam(o)
+        }
     ] as const
 }
 
