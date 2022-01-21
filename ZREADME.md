@@ -837,3 +837,39 @@ const [keys] = useState<('name'|'personId')[]>(['name','personId'])
 
 ## 43_抽象user-select组件选择用户
 - 不会包含模版代码的文件是ts文件,包含模板代码的文件是tsx文件
+- 这节课主要实现了,使用user-select选择用户.
+
+## 44_用useEditProject编辑项目
+- 需要完成的需求
+    - 项目的收藏和取消收藏
+    - 项目的编辑和删除功能
+    - 项目的创建
+- 定义一个组件要先定义组件的Props
+    - 封装一个其他的组件,要保证这个组件有透传的能力. => 也就是可以传递多个参数.
+        - `interface PinProps extends React.ComponentProps<typeof Rate>` => 类似于这样.
+
+- 也可以这样得到值.同样的是利用ES6的解构赋值
+```
+export default function Pin({ checked, onCheckedChange, ...restProps } : PinProps) {
+    ...
+}
+```
+- `onCheckedChange?.(!!num)` => 如果onCheckedChange是空的时候,那么什么也不操作.
+- React Hook必须放在顶层 || 最外层,是不能够放在其他函数里的.
+    - 所以对于在hook中传递参数,在调用的时候传递参数是有一些问题的.
+    - 解决办法是
+```
+export const useEditProject = () => {
+    const { run } = useAsync()
+    const client = useHTTP()
+    const mutate = (params: Partial<Project>) => {
+
+    }
+    return {
+        // 返回一个纯函数,可以随便在别的地方进行调用.
+        mutate // 这样导出.在需要使用的地方引入.就可以在所有地方调用了.
+    }
+}
+```
+- 如果两个参数获取的时机不一样,也可以尝试使用柯里化.
+- 这节课主要学习了如何使用Hook进行增删改的操作
