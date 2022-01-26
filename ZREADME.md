@@ -877,3 +877,145 @@ export const useEditProject = () => {
 ```
 - 如果两个参数获取的时机不一样,也可以尝试使用柯里化.
 - 这节课主要学习了如何使用Hook进行增删改的操作.
+
+## 45_编辑后刷新-useState的懒初始化与保存函数状态
+- 以下讲到的不会正式使用到代码中,但是可以
+    - 学习到更多的useState / useRef / Promise / Proxy的相关知识.
+    - 包括使useState / useRef的注意事项
+    - 还有其他的产生无线循环的场景
+- 在组件每一次渲染的时候,都是在不停的执行组件中的代码的.每次渲染,组件中的变量都是要进行重新赋值的.
+- 找BUG很重要的就是隔绝环境.独立复现.
+- 如果使用useState存储函数的话,函数每次都是会被运行的.即使没有被调用.**所以在useState中保存函数,react会认为这是一个更新惰性值的操作**
+    - 这个是React的惰性初始.可以参见官网.惰性初始只会在组件的初始渲染中起作用.后续渲染时,将会被忽略.如果参数需要通过复杂计算获得,则可以传入一个参数.在函数中计算并返回初始的state.此函数只在初始渲染时被调用
+        - 在state中传入一个函数,react并不认为这是一个需要保存的函数.而是要获得函数返回后调用的值.
+        - 惰性操作是非常消耗性能的操作.
+```
+import "./styles.css";
+import React from "react";
+
+export default function App() {
+  const [lazyValue, setlLzyValue] = React.useState(() => {
+    return "我是一个昂贵的操作";
+  });
+  console.log(lazyValue);
+  return (
+    <div className="App">
+      <button
+        onClick={() => {
+          setlLzyValue(() => {
+            console.log("每次都会被执行"); // 函数体内的代码每次点击都会被执行
+            return "昂贵的操作被更新了"; // 但是如果值相同的话,那么将不会主动更新State.
+          });
+        }}
+      >
+        点击我
+      </button>
+      <div>123121</div>
+    </div>
+  );
+}
+```
+- 如果想要在state中使用函数的话
+```
+import "./styles.css";
+import React from "react";
+
+export default function App() {
+  const [lazyValue, setlLzyValue] = React.useState(() => ()=>{
+    alert('我是一个昂贵的操作')
+  });
+  console.log(lazyValue);
+  return (
+    <div className="App">
+      <button
+        onClick={() => {
+          setlLzyValue(() => ()=>{
+            alert('我更新了一个昂贵的操作')
+          });
+        }}
+      >
+        点击我
+      </button>
+      <button onClick={lazyValue}>触发</button>
+      <div>123121</div>
+    </div>
+  );
+}
+
+```
+
+- 也可以使用这种方式进行赋值函数
+    - 但是这个并不会更新,因为使用useRef定义的值,并不是组件的状态.它只是一个普通的变量.
+    - useRef这个容器保存的值,由于并不是组件状态.所以并不会触发组件重新渲染.所以下面定义的callBack还是第一次渲染时的callBack.
+        - 这个是使用useRef需要注意的点
+```
+import "./styles.css";
+import React from "react";
+
+export default function App() {
+  const callBackRef = React.useRef(()=>console.log('我是一个函数'))
+  const callBack = callBackRef.current //这个callBack读取到的值,如果不重新渲染组件的话,这个值并不会跟随着去更新的.
+  return (
+    <div className="App">
+      <button
+        onClick={() => {
+          callBackRef.current = ()=>console.log('我被更新了');
+          
+        }}
+      >
+        点击我
+      </button>
+      <button onClick={callBack}>触发</button>
+      <div>123121</div>
+    </div>
+  );
+}
+
+```
+```
+import "./styles.css";
+import React from "react";
+
+export default function App() {
+  const callBackRef = React.useRef(()=>console.log('我是一个函数'))
+  return (
+    <div className="App">
+      <button
+        onClick={() => {
+          callBackRef.current = ()=>console.log('我被更新了');
+          
+        }}
+      >
+        点击我
+      </button>
+      <button onClick={()=>callBack.current()}>触发</button>
+      <div>123121</div>
+    </div>
+  );
+}
+```
+- 解决callBack不能够及时更新的方式是如下 : 每次都动态的获取其值.
+```
+import "./styles.css";
+import React from "react";
+
+export default function App() {
+  const callBackRef = React.useRef(() => console.log("我是一个函数"));
+  return (
+    <div className="App">
+      <button
+        onClick={() => {
+          callBackRef.current = () => console.log("我被更新了");
+        }}
+      >
+        点击我
+      </button>
+      {/* 强制读取currentBack的最新值 */}
+      <button onClick={()=>callBackRef.current()}>触发</button>
+      <div>123121</div>
+    </div>
+  );
+}
+```
+- 而如果使用 : `<button onClick={callBackRef.current}>触发</button>`
+     - 这个读取的是第一次加载的值.并不是动态更新之后的值.所以并不会随着改变

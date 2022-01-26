@@ -39,13 +39,18 @@ export const useAsync = <D>(initialState?: State<D>, initConfig?: typeof default
         error,
         stat: 'error',
         data: null,
-    });
+    })
+    const [retry,setRetry] = useState(()=>{
+        console.log('我已经被执行了');
+        
+    })
     // run 是用来触发异步请求
     const run = (promise: Promise<D>) => {
         if (!promise || !promise.then) {
             // throw error 会打断一切的进程.
             throw new Error('请传入 Promise类型');
         }
+        z(()=>run(promise))
         // 如果传入的是一个正常的Promise
         setState({ ...state, stat: 'loading' });
         return promise
@@ -68,6 +73,7 @@ export const useAsync = <D>(initialState?: State<D>, initConfig?: typeof default
         run,
         setData,
         setError,
+        retry, // retry被调用时,重新跑一遍run.使得state刷新一遍
         ...state
     }
 }
