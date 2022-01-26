@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { useMountedRef } from 'utils';
 
 // 这个是泛型的一个基本的使用方式
 function getArray<T>(value: T, num = 5): T[] {
@@ -40,6 +41,7 @@ export const useAsync = <D>(initialState?: State<D>, initConfig?: typeof default
         stat: 'error',
         data: null,
     })
+    const mountedRef = useMountedRef()
     const [retry, setRetry] = useState(() => () => {
         console.log('我已经被执行了');
     })
@@ -50,16 +52,17 @@ export const useAsync = <D>(initialState?: State<D>, initConfig?: typeof default
             throw new Error('请传入 Promise类型');
         }
         setRetry(() => () => {
-            if(runConfig?.retry){
-                run(runConfig.retry(),runConfig)
+            if (runConfig?.retry) {
+                run(runConfig.retry(), runConfig)
             }
         })
         // 如果传入的是一个正常的Promise
         setState({ ...state, stat: 'loading' });
         return promise
             .then(data => { // 如果请求成功的处理方式
-                setData(data);
-                console.log('查看请求成功的数据', data);
+                // mountedRef.current表示组件已经被挂载,而且此刻不是已经被卸载的状态.
+                // 这个时候,才会进行设置相关的数据
+                if (mountedRef.current) setData(data);
                 return data;
             }).catch(error => { // 如果报错的处理方式
                 // Carch会消化异常,如果不主动抛出.外面是接受不到的

@@ -56,3 +56,20 @@ export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) =
 
 // 重置路由并刷新界面 
 export const resetRoute = () => window.location.href = window.location.origin;
+
+
+/**
+ * 返回组件的挂在状态, 如果还没挂载或者已经卸载,返回false,反之返回true
+*/
+export const useMountedRef = () => {
+    const mountedRef = useRef(false)
+    useEffect(() => {
+        // 在页面被加载完的时候调用.这个时候返回的是true
+        mountedRef.current = true
+        return () => { // 页面被卸载的时候返回的是false
+            mountedRef.current = false
+        }
+    })
+
+    return mountedRef
+}

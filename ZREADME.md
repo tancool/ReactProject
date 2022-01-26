@@ -1026,3 +1026,7 @@ export default function App() {
 - 这里讲到了一个概念,乐观更新
 - 跨组件传递状态.可以使用状态提升.把变量提升到父组件的状态.
     - 也可以使用redux进行共享变量.适用于更广泛的变量传递情况
+
+## 47_useCallback应用,优化异步请求
+- 优化 组件已经退出并销毁,但是Promise仍然会执行.之后执行state导致报`Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.`的问题
+    - 
