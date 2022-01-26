@@ -1,6 +1,7 @@
 import qs from "qs";
 import { logout } from './../auth-provider';
 import { useAuth } from 'context/auth-context';
+import { useCallback } from "react";
 const apiUrl = process.env.REACT_APP_API_URL;
 
 // 这个是解决报错的解决办法
@@ -47,8 +48,13 @@ export const http = async (endpoint: string, { data, token, headers, ...customCo
 export const useHTTP = () => {
     const { user } = useAuth(); // 在所有的函数里都可以使用到useAuth获取登陆状态.因为这个是已经包装过的函数.
     // TODO 讲解TS操作符
-    return (...[endpoint, config]: Parameters<typeof http>) => http(endpoint, { ...config, token: user?.token }); // 这里要求传递的数据类型的touple.
-    // Parameters<typeof http> 这个是可以直接使用http的类型定义.现在这一块还不太清楚.
+    return useCallback(
+        // 这里要求传递的数据类型的touple.
+        // Parameters<typeof http> 这个是可以直接使用http的类型定义.现在这一块还不太清楚.
+        (...[endpoint, config]: Parameters<typeof http>) => http(endpoint, { ...config, token: user?.token }),
+        [user?.token]
+    )
+
 }
 
 

@@ -1029,4 +1029,33 @@ export default function App() {
 
 ## 47_useCallback应用,优化异步请求
 - 优化 组件已经退出并销毁,但是Promise仍然会执行.之后执行state导致报`Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.`的问题
-    - 
+    - 使用以下的组件进行判断状态.
+
+```
+export const useMountedRef = () => {
+    const mountedRef = useRef(false)
+    useEffect(() => {
+        // 在页面被加载完的时候调用.这个时候返回的是true
+        mountedRef.current = true
+        return () => { // 页面被卸载的时候返回的是false
+            mountedRef.current = false
+        }
+    })
+    return mountedRef
+}
+```
+- 使用useCallBack用的多了以后,迟早会面临的一个问题
+    - 在useEffect用到了state,但是又把state加到了useEffect的依赖中.可能会造成无限循环刷新的问题.
+    - 解决办法就是在useCallBack中,不要直接用到state.
+        - 在useState中使用函数.使用函数会对比值是否一致.如果一致,则不进行更新数据
+        ```
+                setState(prevState => {
+                return { ...prevState, stat: 'loading' };
+            });
+        ```
+- useMemo和useCallBack都是为了依赖而存在的.具体说,就是非基本类型的依赖.
+    - 如果定义的非基本类型想要做依赖,就需要使用useMemo || useCallBack 把非基本类型限制住.不要每次页面渲染的时候都会重新创建.
+    - 经验之谈 : 
+        - 如果在自定义的Hook中返回函数,那么非常大的概率使用的是useCallback.
+        - 理解下 **useMemo和useHook**的区别.
+    

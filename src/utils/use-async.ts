@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useMountedRef } from 'utils';
 
 // 这个是泛型的一个基本的使用方式
@@ -31,47 +31,57 @@ export const useAsync = <D>(initialState?: State<D>, initConfig?: typeof default
         ...defaultInitialState, // 默认的状态
         ...initialState, // 用户传入的State
     });
-    const setData = (data: D) => setState({
-        data,
-        stat: 'success',
-        error: null,
-    });
-    const setError = (error: Error) => setState({
-        error,
-        stat: 'error',
-        data: null,
-    })
+    const setData = useCallback(
+        (data: D) => setState({
+            data,
+            stat: 'success',
+            error: null,
+        }), []
+    )
+    const setError = useCallback(
+        (error: Error) => setState({
+            error,
+            stat: 'error',
+            data: null,
+        }), []
+    )
     const mountedRef = useMountedRef()
     const [retry, setRetry] = useState(() => () => {
         console.log('我已经被执行了');
     })
     // run 是用来触发异步请求
-    const run = (promise: Promise<D>, runConfig?: { retry: () => Promise<D> }) => {
-        if (!promise || !promise.then) {
-            // throw error 会打断一切的进程.
-            throw new Error('请传入 Promise类型');
-        }
-        setRetry(() => () => {
-            if (runConfig?.retry) {
-                run(runConfig.retry(), runConfig)
+    // useCallback中的第二个参数规定了,只有第二个参数发生变化了.run才会被重新定义
+    const run = useCallback(
+        (promise: Promise<D>, runConfig?: { retry: () => Promise<D> }) => {
+            if (!promise || !promise.then) {
+                // throw error 会打断一切的进程.
+                throw new Error('请传入 Promise类型');
             }
-        })
-        // 如果传入的是一个正常的Promise
-        setState({ ...state, stat: 'loading' });
-        return promise
-            .then(data => { // 如果请求成功的处理方式
-                // mountedRef.current表示组件已经被挂载,而且此刻不是已经被卸载的状态.
-                // 这个时候,才会进行设置相关的数据
-                if (mountedRef.current) setData(data);
-                return data;
-            }).catch(error => { // 如果报错的处理方式
-                // Carch会消化异常,如果不主动抛出.外面是接受不到的
-                setError(error);
-                console.log(config);
-                if (config.throwOnError) return Promise.reject(error)
-                return error
+            setRetry(() => () => {
+                if (runConfig?.retry) {
+                    run(runConfig.retry(), runConfig)
+                }
             })
-    }
+            // 如果传入的是一个正常的Promise
+            // setState({ ...state, stat: 'loading' });
+            setState(prevState => {
+                return { ...prevState, stat: 'loading' };
+            });
+            return promise
+                .then(data => { // 如果请求成功的处理方式
+                    // mountedRef.current表示组件已经被挂载,而且此刻不是已经被卸载的状态.
+                    // 这个时候,才会进行设置相关的数据
+                    if (mountedRef.current) setData(data);
+                    return data;
+                }).catch(error => { // 如果报错的处理方式
+                    // Carch会消化异常,如果不主动抛出.外面是接受不到的
+                    setError(error);
+                    console.log(config);
+                    if (config.throwOnError) return Promise.reject(error)
+                    return error
+                })
+        }, [config.throwOnError, mountedRef, setData]
+    )
     return {
         isIDle: state.stat === 'idle',
         isLoading: state.stat == 'loading',

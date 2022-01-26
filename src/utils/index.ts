@@ -70,6 +70,5 @@ export const useMountedRef = () => {
             mountedRef.current = false
         }
     })
-
     return mountedRef
 }
