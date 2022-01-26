@@ -1058,4 +1058,31 @@ export const useMountedRef = () => {
     - 经验之谈 : 
         - 如果在自定义的Hook中返回函数,那么非常大的概率使用的是useCallback.
         - 理解下 **useMemo和useHook**的区别.
-    
+- 如果涉及到依赖,一定要非常注意.
+## 48_状态提升,组合组件与控制反转[上]
+
+- 关于React中的变量提升 => 组件在代码上下文中,可以在执行代码前进行调用.
+```
+export const AuthenticateApp = () => {
+    return (
+        <div>
+            <Containter>
+                <PageHeader />
+                ...
+            </Containter>
+        </div>
+    )
+}
+const PageHeader = () => {
+    return (<Header between={true}>
+        ...
+    </Header>)
+}
+```
+- 其中的原理类似于这样.
+```
+    const print = () => d
+    const d = 123;
+    console.log(print());
+```
+- 适量的行内样式是ok的,并不是一个洪水猛兽

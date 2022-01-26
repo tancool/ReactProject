@@ -10,13 +10,17 @@ import { Navigate, Outlet, Route, Routes } from "react-router";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ProjectScreen } from 'screens/project';
 import { resetRoute } from 'utils';
+import { useState } from 'react';
+import ProjectModal from './screens/project-list/project-modal';
+import { ProjectPopover } from './components/project-popover';
 // 这就意味着这个图片是一个组件
 export const AuthenticateApp = () => {
+    const [projectModalOpen, setProjectModalOpen] = useState(false)
     return (
         <div>
             {/* 这个代表的是目前的整个登录后的状态 */}
             {/* 如果是直接使用方法名的话,还可以这么写的 */}
-            <Containter>
+            <Container>
                 <PageHeader />
                 <Main>
                     {/* <ProjectListScreen /> */}
@@ -29,41 +33,49 @@ export const AuthenticateApp = () => {
                         </Routes >
                     </Router >
                 </Main>
-            </Containter>
+                {/* 因为ProjectModal是在哪个层级都可以被打开的,页面层级比较高.所以放在页面层级比较高的上面是比较合适的 */}
+                <ProjectModal projectModalOpen={projectModalOpen} onClose={() => setProjectModalOpen(false)}></ProjectModal>
+            </Container>
         </div>
     )
 }
 const PageHeader = () => {
-    const { logout, user } = useAuth();
     return (<Header between={true}>
         <HeaderLeft gap={true}>
             {/* <img src={softwareLogo} alt="" /> */}
-            <Button type={'link'} onClick={resetRoute}>
-                <SoftwareLogo width={'20rem'} color='rgb(38,132,255)' />
+            <Button  style={{'padding':'0'}}  type={'link'} onClick={resetRoute}>
+                <SoftwareLogo width={'18rem'} color='rgb(38,132,255)' />
             </Button>
-            <h2>项目</h2>
+            {/* <h2>项目</h2> */}
+            <ProjectPopover />
             <h2>用户</h2>
         </HeaderLeft>
         <HeaderRight>
-            <Dropdown overlay={
-                <Menu>
-                    <Menu.Item key={'logout'}>
-                        <Button onClick={logout}>登出</Button>
-                    </Menu.Item>
-                </Menu>
-            }>
-                {/* 取消默认事件,防止页面刷新 */}
-                <Button onClick={e => e.preventDefault()}>你好 {user?.name || '用户'}</Button>
-            </Dropdown>
+            <User />
         </HeaderRight>
     </Header>)
 }
-const Containter = styled.header`
+const User = () => {
+    const { logout, user } = useAuth();
+    return <Dropdown overlay={
+        <Menu>
+            <Menu.Item key={'logout'}>
+                <Button onClick={logout}>登出</Button>
+            </Menu.Item>
+        </Menu>
+    }>
+        {/* 取消默认事件,防止页面刷新 */}
+        <Button onClick={e => e.preventDefault()}>你好 {user?.name || '用户'}</Button>
+    </Dropdown>
+}
+
+const Container = styled.header`
 display: grid;
 grid-template-rows: 6rem 1fr 6rem;
 height: 100vh;
 `;
 const Header = styled(Row)`
+justify-content: space-between;
 padding: 3.2rem;
 box-shadow:  0 0 5px 0 rgba(0,0,0,0.1);
 z-index: 1;
