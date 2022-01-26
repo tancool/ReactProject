@@ -2,7 +2,7 @@
 import { ProjectListScreen } from './screens/project-list/index';
 import { useAuth } from 'context/auth-context';
 import styled from '@emotion/styled';
-import { Row } from 'components/lib';
+import { ButtonNoPadding, Row } from 'components/lib';
 // import softwareLogo from "./assets/software-logo.svg";
 import { ReactComponent as SoftwareLogo } from './assets/software-logo.svg' // 这就意味着,这个是一个React组件
 import { Button, Dropdown, Menu } from 'antd';
@@ -43,9 +43,9 @@ const PageHeader = () => {
     return (<Header between={true}>
         <HeaderLeft gap={true}>
             {/* <img src={softwareLogo} alt="" /> */}
-            <Button  style={{'padding':'0'}}  type={'link'} onClick={resetRoute}>
+            <ButtonNoPadding  style={{'padding':'0'}}  type={'link'} onClick={resetRoute}>
                 <SoftwareLogo width={'18rem'} color='rgb(38,132,255)' />
-            </Button>
+            </ButtonNoPadding>
             {/* <h2>项目</h2> */}
             <ProjectPopover />
             <h2>用户</h2>

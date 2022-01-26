@@ -1,4 +1,4 @@
-import { Table, TableProps } from "antd"
+import { Dropdown, Menu, Table, TableProps } from "antd"
 import Pin from "components/pin"
 import dayjs from "dayjs"
 import React from "react"
@@ -6,6 +6,7 @@ import { Link } from "react-router-dom"
 import { User } from "./search-panel"
 import { render } from '@testing-library/react';
 import { useEditProject } from "utils/project"
+import { ButtonNoPadding } from 'components/lib';
 
 // TODO 把所有ID都改为number类型
 export interface Project {
@@ -18,14 +19,14 @@ export interface Project {
 }
 interface ListProps extends TableProps<Project> {
     users: User[],
-    refresh:()=>void
+    refresh: () => void
 }
 export const List = ({ users, ...props }: ListProps) => {
     const { mutate } = useEditProject() // 这样就得到了mutate函数
 
     // const pinProject = (id: number, pin: boolean) => mutate({ id, pin }) // 这样把函数放在外面也是可以的.
     const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin }).then(props.refresh) // props.refresh就是一个函数.这样写的话,就是直接调用这个函数.
-    let num =1
+    let num = 1
     return <div>
         <Table
             pagination={false}
@@ -79,6 +80,19 @@ export const List = ({ users, ...props }: ListProps) => {
                             return <span>
                                 {project.created ? dayjs(project.created).format('YYYY-MM-DD') : '无'}
                             </span>
+                        }
+                    },
+                    {
+                        render(value, project) {
+                            return <Dropdown overlay={
+                                <Menu>
+                                    <Menu.Item key={'edit'}>
+                                        <ButtonNoPadding type={'link'} onClick={()=>console.log('我被编辑了')}>编辑</ButtonNoPadding>
+                                    </Menu.Item>
+                                </Menu>
+                            }>
+                                <ButtonNoPadding type={'link'}>...</ButtonNoPadding>
+                            </Dropdown>
                         }
                     }
                 ]
