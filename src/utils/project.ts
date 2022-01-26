@@ -6,12 +6,13 @@ import { useAsync } from "./use-async";
 
 export const useProjects = (param?: Partial<Project>) => {
     // TODO 这一块需要了解下  console.log(debouncedParam); 每次数据更新,都会重新重新执行这个函数.
-    const client = useHTTP();
-    const { run, ...result } = useAsync<Project[]>();
+    const client = useHTTP()
+    const fetchProjects = () => client('projects', { data: cleanObject(param || {}) })
+    const { run, ...result } = useAsync<Project[]>()
     useEffect(() => {
         // client(['projects', { data: cleanObject(debouncedParam) }]); => http返回函数使用 ... 就可以将touple函数修改为普通参数的形式
 
-        run(client('projects', { data: cleanObject(param || {}) }))
+        run(fetchProjects(), { retry: fetchProjects })
         // .then(data => {
         //     setList(data);
         // })
@@ -31,7 +32,7 @@ export const useProjects = (param?: Partial<Project>) => {
 }
 
 export const useEditProject = () => {
-    const { run,...asyncResult } = useAsync()
+    const { run, ...asyncResult } = useAsync()
     const client = useHTTP()
     const mutate = (params: Partial<Project>) => {
         return run(client(`projects/${params.id}`, {
@@ -46,7 +47,7 @@ export const useEditProject = () => {
 }
 
 export const useAddProject = () => {
-    const { run,...asyncResult } = useAsync()
+    const { run, ...asyncResult } = useAsync()
     const client = useHTTP()
     const mutate = (params: Partial<Project>) => {
         return run(client(`projects/${params.id}`, {

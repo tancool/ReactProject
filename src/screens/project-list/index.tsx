@@ -5,7 +5,7 @@ import { List, Project } from './list';
 import { useMount, useDebounce } from './../../utils/index';
 import { useHTTP } from 'utils/http';
 import styled from '@emotion/styled';
-import { Typography } from 'antd';
+import { Button, Typography } from 'antd';
 import { useAsync } from './../../utils/use-async';
 import { useProjects } from './../../utils/project';
 import { useUsers } from './../../utils/user';
@@ -63,7 +63,7 @@ export const ProjectListScreen = () => {
         <h2>项目列表</h2>
         <SearchPanel param={param} setParam={setParam} users={users || []}></SearchPanel>
         {error ? <Typography.Text type={'danger'}>{error.message}</Typography.Text> : null}
-        <List dataSource={list || []} users={users || []} loading={isLoading}></List>
+        <List refresh={retry} dataSource={list || []} users={users || []} loading={isLoading}></List>
     </Container>
 }
 const Container = styled.div`
