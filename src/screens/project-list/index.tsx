@@ -15,7 +15,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
 /**
  * 这个需要使用Json-Server才能得到数据,这里做个备注.
 */
-export const ProjectListScreen = () => {
+export const ProjectListScreen = (props:{projectButton:JSX.Element}) => {
     useDocumentTitle('项目列表', false)
     // param是表单的状态
     // const [param , setParam] = useState({
@@ -62,7 +62,8 @@ export const ProjectListScreen = () => {
     return <Container>
         <Row justify={'space-between'}>
             <h2>项目列表</h2>
-            <Button onClick={() => console.log('我被触发了')}>创建项目</Button>
+            {props.projectButton}
+            {/* <Button onClick={() => console.log('我被触发了')}>创建项目</Button> */}
         </Row>
         <SearchPanel param={param} setParam={setParam} users={users || []}></SearchPanel>
         {error ? <Typography.Text type={'danger'}>{error.message}</Typography.Text> : null}

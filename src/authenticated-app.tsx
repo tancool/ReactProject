@@ -21,13 +21,26 @@ export const AuthenticateApp = () => {
             {/* 这个代表的是目前的整个登录后的状态 */}
             {/* 如果是直接使用方法名的话,还可以这么写的 */}
             <Container>
-                <PageHeader />
+                <PageHeader projectButton={
+                    <ButtonNoPadding
+                        type={'link'}
+                        onClick={() => setProjectModalOpen(true)}
+                    >创建项目
+                    </ButtonNoPadding>
+                } />
                 <Main>
                     {/* <ProjectListScreen /> */}
                     <Router>
                         <Routes>
                             {/* Route也是一个组件,可以直接进行传值. */}
-                            <Route path={'/projects'} element={<ProjectListScreen />} ></ Route>
+                            <Route path={'/projects'} element={<ProjectListScreen
+                                projectButton={
+                                    <ButtonNoPadding
+                                        type={'link'}
+                                        onClick={() => setProjectModalOpen(true)}
+                                    >创建项目
+                                    </ButtonNoPadding>
+                                } />} ></ Route>
                             <Route path={'/projects/:projectId/*'} element={<ProjectScreen />}></Route>
                             <Route path='*' element={<Navigate to={'/projects'} />} />
                         </Routes >
@@ -39,15 +52,15 @@ export const AuthenticateApp = () => {
         </div>
     )
 }
-const PageHeader = () => {
+const PageHeader = (props: { projectButton: JSX.Element }) => {
     return (<Header between={true}>
         <HeaderLeft gap={true}>
             {/* <img src={softwareLogo} alt="" /> */}
-            <ButtonNoPadding  style={{'padding':'0'}}  type={'link'} onClick={resetRoute}>
+            <ButtonNoPadding style={{ 'padding': '0' }} type={'link'} onClick={resetRoute}>
                 <SoftwareLogo width={'18rem'} color='rgb(38,132,255)' />
             </ButtonNoPadding>
             {/* <h2>项目</h2> */}
-            <ProjectPopover />
+            <ProjectPopover  {...props} />
             <h2>用户</h2>
         </HeaderLeft>
         <HeaderRight>

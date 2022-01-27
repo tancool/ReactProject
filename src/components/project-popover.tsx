@@ -4,7 +4,7 @@ import React from 'react';
 import { useProjects } from './../utils/project';
 import { ButtonNoPadding } from './lib';
 
-export const ProjectPopover = () => {
+export const ProjectPopover = (props:{ projectButton: JSX.Element }) => {
   const {data:projects,isLoading} = useProjects()
   const pinnedProjects = projects?.filter(project=>project.pin) // 获得所有的收藏项目
   const context = <ContentContainer>
@@ -17,7 +17,8 @@ export const ProjectPopover = () => {
       }
     </List>
     <Divider/>
-    <ButtonNoPadding type={'link'}>创建项目</ButtonNoPadding>
+    {/* <ButtonNoPadding type={'link'}>创建项目</ButtonNoPadding> */}
+    {props.projectButton}
   </ContentContainer>
 
   return <Popover placement={'bottom'} content={context}>
