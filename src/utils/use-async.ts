@@ -1,5 +1,5 @@
 
-import { useCallback, useState } from 'react';
+import { useCallback, useReducer, useState } from 'react';
 import { useMountedRef } from 'utils';
 
 // 这个是泛型的一个基本的使用方式
@@ -24,28 +24,41 @@ const defaultConfig = {
     throwOnError: false,
 }
 
+const useSafeDispatch = <T>(dispatch: (...args: T[]) => void) => {
+    const mountedRef = useMountedRef()
+    return useCallback((...args: T[]) => (mountedRef.current ? dispatch(...args) : void 0),
+        [dispatch, mountedRef])
+}
+
 // 用户传入的state
 export const useAsync = <D>(initialState?: State<D>, initConfig?: typeof defaultConfig) => { // 第二个参数类型的知识点要学习下. course32
     const config = { ...defaultConfig, ...initConfig }
-    const [state, setState] = useState<State<D>>({
-        ...defaultInitialState, // 默认的状态
-        ...initialState, // 用户传入的State
-    });
+    // const [state, setState] = useState<State<D>>({
+    //     ...defaultInitialState, // 默认的状态
+    //     ...initialState, // 用户传入的State
+    // });
+    const [state, dispatch] = useReducer(
+        (state: State<D>, action: Partial<State<D>>) => ({ ...state, ...action }),
+        {
+            ...defaultInitialState,
+            ...initialState
+        })
+    const safeDispatch = useSafeDispatch(dispatch)
+
     const setData = useCallback(
-        (data: D) => setState({
+        (data: D) => safeDispatch({
             data,
             stat: 'success',
             error: null,
-        }), []
+        }), [safeDispatch]
     )
     const setError = useCallback(
-        (error: Error) => setState({
+        (error: Error) => safeDispatch({
             error,
             stat: 'error',
             data: null,
-        }), []
+        }), [safeDispatch]
     )
-    const mountedRef = useMountedRef()
     const [retry, setRetry] = useState(() => () => {
         console.log('我已经被执行了');
     })
@@ -64,14 +77,12 @@ export const useAsync = <D>(initialState?: State<D>, initConfig?: typeof default
             })
             // 如果传入的是一个正常的Promise
             // setState({ ...state, stat: 'loading' });
-            setState(prevState => {
-                return { ...prevState, stat: 'loading' };
-            });
+            dispatch({ stat: 'loading' });
             return promise
                 .then(data => { // 如果请求成功的处理方式
                     // mountedRef.current表示组件已经被挂载,而且此刻不是已经被卸载的状态.
                     // 这个时候,才会进行设置相关的数据
-                    if (mountedRef.current) setData(data);
+                    safeDispatch(data);
                     return data;
                 }).catch(error => { // 如果报错的处理方式
                     // Carch会消化异常,如果不主动抛出.外面是接受不到的
@@ -80,7 +91,7 @@ export const useAsync = <D>(initialState?: State<D>, initConfig?: typeof default
                     if (config.throwOnError) return Promise.reject(error)
                     return error
                 })
-        }, [config.throwOnError, mountedRef, setData]
+        }, [config.throwOnError, setError, setData,safeDispatch]
     )
     return {
         isIDle: state.stat === 'idle',

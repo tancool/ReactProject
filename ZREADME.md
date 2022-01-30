@@ -1109,3 +1109,10 @@ const PageHeader = () => {
 - never[] 表示的是一个空数组,神恶魔也没有的一个数组
 - 这节课主要完成了use-undo的实现.主要是实现了对步骤的相关记录.
     - 并且把三个互相影响的关联状态给结合到一起,减少对多state的依赖.减少了代码的复杂性
+
+## 用useReducer进行状态管理.
+- 泛型中的<T>表示的是Type,<D>表示的是Data
+- 什么时候使用useState或者useReducer
+    - 在功能上,两者是可以进行互换的.
+    - useState适合于定义单个的状态,useReducer适合于定义一群会互相影响的状态.
+        - 如果在适合使用useReducer的地方,使用useReducer.那么会帮助代码变得更加合理

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { useCallback } from 'react';
+import React, { useState, useCallback, useReducer } from 'react';
 
+// 以下是自己实现的redo
+/*
 export const useUndo = <T>(initialPresent: T) => {
     // const [past, setPast] = useState<T[]>([])// past是一个数组,用来记录历史操作记录的合集.
     // const [present, setPresent] = useState(initialPresent) //当前值
@@ -95,4 +96,86 @@ export const useUndo = <T>(initialPresent: T) => {
         state,
         { set, reset, undo, redo, canUndo, canRedu }
     ] as const
+}
+*/
+
+// 使用reducer来实现相关的功能 [use-reducer版本的相关逻辑]
+// 这个就可以看作是轻量版的redux.可以称为一个局部的状态管理.但是不能称作全局状态管理.因为状态不能在组件间共享.
+const UNDO = 'UNDO'
+const REDO = 'REDO'
+const SET = 'SET'
+const RESET = 'RESET'
+type State<T> = {
+    past: T[],
+    present: T,
+    future: T[]
+}
+type Action<T> = {
+    newPresent?: T, // newPresent是作为数据的一个参数
+    type: typeof UNDO | typeof REDO | typeof SET | typeof RESET
+}
+const undoReducer = <T>(state: State<T>, action: Action<T>) => {
+    const { past, present, future } = state
+    const { type, newPresent } = action
+    switch (type) {
+        case UNDO: {
+            const { past, present, future } = state
+            const previous = past[past.length - 1]
+            const newPast = past.slice(0, past.length - 1)
+            return {
+                past: newPast,
+                present: previous,
+                future: [present, ...future]
+            }
+        }
+        case REDO:
+            {
+                if (future.length === 0) return state;
+                const next = future[0]
+                const newFuture = future.slice(1)
+                return {
+                    past: [...past, present],
+                    present: next,
+                    future: newFuture
+                }
+            }
+        case SET:
+            {
+                if (newPresent == present) return state
+                return {
+                    past: [...past, present],
+                    present: newPresent,
+                    future: []
+                }
+            }
+        case RESET:
+            {
+                return {
+                    past: [],
+                    present: newPresent,
+                    future: []
+                }
+            }
+    }
+}
+export const useUndo = <T>(initialPresent: T) => {
+    const [state, dispatch] = useReducer(undoReducer, {
+        past: [],
+        present: initialPresent,
+        future: []
+    } as State<T>)
+
+    const canUndo = state.past.length !== 0
+    const canRedo = state.future.length !== 0
+    const undo = useCallback(() => dispatch({ type: UNDO }), [])
+    const redo = useCallback(() => dispatch({ type: REDO }), [])
+    const set = useCallback((newPresent: T) => dispatch({ type: SET, newPresent }), [])
+    const reset = useCallback(() => (newPresent: T) => dispatch({ type: RESET, newPresent }), [])
+
+    return [
+        state,
+        { set, reset, undo, redo, canUndo, canRedo }
+    ] as const
+
+
 }
