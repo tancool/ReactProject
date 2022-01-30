@@ -1116,3 +1116,5 @@ const PageHeader = () => {
     - 在功能上,两者是可以进行互换的.
     - useState适合于定义单个的状态,useReducer适合于定义一群会互相影响的状态.
         - 如果在适合使用useReducer的地方,使用useReducer.那么会帮助代码变得更加合理
+
+## Reducx用法介绍

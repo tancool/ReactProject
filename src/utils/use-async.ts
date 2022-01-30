@@ -26,6 +26,8 @@ const defaultConfig = {
 
 const useSafeDispatch = <T>(dispatch: (...args: T[]) => void) => {
     const mountedRef = useMountedRef()
+    console.log('---');
+    console.log(mountedRef.current);
     return useCallback((...args: T[]) => (mountedRef.current ? dispatch(...args) : void 0),
         [dispatch, mountedRef])
 }
@@ -77,12 +79,12 @@ export const useAsync = <D>(initialState?: State<D>, initConfig?: typeof default
             })
             // 如果传入的是一个正常的Promise
             // setState({ ...state, stat: 'loading' });
-            dispatch({ stat: 'loading' });
+            // safeDispatch({ stat: 'loading' });
             return promise
                 .then(data => { // 如果请求成功的处理方式
                     // mountedRef.current表示组件已经被挂载,而且此刻不是已经被卸载的状态.
                     // 这个时候,才会进行设置相关的数据
-                    safeDispatch(data);
+                    setData(data);
                     return data;
                 }).catch(error => { // 如果报错的处理方式
                     // Carch会消化异常,如果不主动抛出.外面是接受不到的
@@ -93,6 +95,8 @@ export const useAsync = <D>(initialState?: State<D>, initConfig?: typeof default
                 })
         }, [config.throwOnError, setError, setData,safeDispatch]
     )
+    console.log(state);
+    
     return {
         isIDle: state.stat === 'idle',
         isLoading: state.stat == 'loading',
@@ -102,6 +106,7 @@ export const useAsync = <D>(initialState?: State<D>, initConfig?: typeof default
         setData,
         setError,
         retry, // retry被调用时,重新跑一遍run.使得state刷新一遍
+        safeDispatch,
         ...state
     }
 }
