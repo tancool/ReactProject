@@ -1145,3 +1145,19 @@ const CountContainer = connect(mapStateToProps, mapDispatchToProps)(CountUI) // 
     - render props
     - hook
         - 实现原理是闭包
+## 54_为什么我们需要react-thunk
+- 异步操作被认为不是纯函数.
+- redux的设计理念和react是相似的.
+    - 其中比较state的对象,是比较的引用地址.
+- redux-thunk是用来处理异步最流行的库
+    - 可以帮助我们隐藏一部或者同步的细节
+
+## 055_配置redux-toolkit
+- 使用redux-toolkit也就相当于使用redux.
+    - redux-toolkit在redux的基础上封装,解决了三个问题.将复杂逻辑简单化的redux.现在也逐渐成为了使用redux的标准方式
+        - 解决redux配置复杂
+        - 需要安装更多的依赖
+        - 需要很多模板代码.
+- 安装命令 yarn add react-redux @reduxjs/toolkit
+    - 这里切换了分支,因为toolkit和其他的解决方式是成竞争关系的
+- immer是可以创建一个对象的影子.修改值会创建新的对象
