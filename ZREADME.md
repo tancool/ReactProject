@@ -1110,11 +1110,38 @@ const PageHeader = () => {
 - 这节课主要完成了use-undo的实现.主要是实现了对步骤的相关记录.
     - 并且把三个互相影响的关联状态给结合到一起,减少对多state的依赖.减少了代码的复杂性
 
-## 用useReducer进行状态管理.
+## 51_用useReducer进行状态管理.
 - 泛型中的<T>表示的是Type,<D>表示的是Data
 - 什么时候使用useState或者useReducer
     - 在功能上,两者是可以进行互换的.
     - useState适合于定义单个的状态,useReducer适合于定义一群会互相影响的状态.
         - 如果在适合使用useReducer的地方,使用useReducer.那么会帮助代码变得更加合理
 
-## Reducx用法介绍
+## 52_Reducx用法介绍
+- 全局状态管理的最佳实践 : 全局状态越少越简单越好.
+- redux可以用到react / vue 以及js中.redux是一个可预测的状态容器.
+    - github上的redux的介绍
+    - 可预测指的是,状态是为一个纯函数
+- react-redux是用来连接redux和react.js的
+- 用法参照git上面的counter-vanilla
+
+## 53_react-redux和Hoc
+- 学习一样东西的时候,最重要的是先了解的是学习的东西起到了什么作用.在生态中占据了什么位置.
+    - react-redux干了什么事情?
+        - 将redux中的状态和react中的状态连接起来.
+- react-redux中有一个容器组件和展示组件分离,也是高阶组件中的一个
+    - 但是hook出现了之后,打破了这种模式
+- **到后期需要了解React的高阶组件,以及高阶组件解决了什么问题**
+```
+// 类似于这样
+const CountContainer = connect(mapStateToProps, mapDispatchToProps)(CountUI) // 这个是API的用法
+```
+- react非常注重抽象嗲吗和代码复用
+- react中的hook的发展历程
+    - mixin
+    - hoc
+        - 服用代码的方案,类似于python中的装饰器.
+    - 组件和展示分离模式
+    - render props
+    - hook
+        - 实现原理是闭包

@@ -79,7 +79,7 @@ export const useAsync = <D>(initialState?: State<D>, initConfig?: typeof default
             })
             // 如果传入的是一个正常的Promise
             // setState({ ...state, stat: 'loading' });
-            // safeDispatch({ stat: 'loading' });
+            safeDispatch({ stat: 'loading' });
             return promise
                 .then(data => { // 如果请求成功的处理方式
                     // mountedRef.current表示组件已经被挂载,而且此刻不是已经被卸载的状态.
