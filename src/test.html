@@ -6,74 +6,92 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.0.0-beta.3/babel.min.js"></script>
 </head>
 
 <body>
 
-    <script>
-        // function retVal(data) {
-        //     console.log('我被执行');
-        //     return `123${data}`;
-        // }
-        // function test() {
-        //     return new Promise((resolve, reject) => {
-        //         setTimeout(() => {
-        //             resolve('ok');
-        //         }, 3000);
-        //     }).then(async (data) => {
-        //         return retVal(await data); // 这个是一个await.等待await之后再传递值给retVal
-        //     })
-        // }
-        // const a = test();
-        // console.log(a);
-        // a.then(data => {
-        //     console.log(data);
-        // })
+    <div id="app">
 
+    </div>
+    <!-- <script type="text/babel">
 
+        // 复习Context
 
-
-        // function test() {
-        //     return window.localStorage.setItem('hello', 123)
-        // }
-        // const variable = test();
-        // console.log(variable);
-
-        // function setUser() {
-        //     return new Promise((resolve, reject) => {
-        //         setTimeout(() => {
-        //             reject('ok')
-        //         }, 2000)
-        //     }).then((data,err) => {
-        //         console.log(err);
-        //         Promise.reject('errr');
-        //         // return `data${data}`;
-        //     })
-        // };
-        // function log(data,err) {
-        //     console.log(`现在的值是${data}-${err}`);
-        // }
-        // const printLogs = setUser();
-        // printLogs.then((resolve,reject)=>{
-        //     console.log(resolve);
-        //     console.log(reject);
-        // });
-
-        new Promise((resolve, reject) => {
-            resolve('err')
-        }).then((data,b) => { // then传入的是两个回调函数,而不是一个函数传递两个值.
-            console.log(123);
-            console.log(data);
-            console.log(b);
-        }, (err) => {
-            console.log(err);
-        });
-
-        function testObject({a}){ // 这个写法是接受一个对象.其中对象中只接受到a
-            console.log(arguments);
-            console.log(a);
+        function Father() {
+            return < div > helpfulerror</div >
         }
-        testObject({a:'🚀123',b:45});
+        ReactDOM.render(
+            <Father />,
+            document.getElementById('app')
+        )
+
+    </script> -->
+    <script>
+        const MyContext = React.createContext();
+        const { Provider, Consumer } = MyContext;
+        {
+            // 一种方式是这样写,不必引入Provider
+            /* <MyContext.Provider value={{ username, age }}>
+                <B />
+            </MyContext.Provider> */
+        }
+
+        export default class A extends Component {
+            state = { username: 'tst', age: 18 };
+            render() {
+                const { username, age } = this.state;
+                return (
+                    <div b='2'>
+                        我是A组件
+                        <Provider value={{ username, age }}>
+                            <B />
+                        </Provider>
+                    </div>
+                )
+            }
+        }
+        class B extends Component {
+            render() {
+                return (
+                    <div b='3'>
+                        2
+                        <C />
+                    </div>
+                )
+            }
+        }
+
+        class C extends Component {
+            // static contextType = MyContext; // 这个像是写固定的
+            render() {
+                // console.log(this.context); // 此刻已经成功拿到了值
+                return (
+                    <Consumer>
+                        {value => {
+                            console.log(value);
+                            return <span>{value.username}-{value.age}</span>
+                        }}
+                    </Consumer>
+                )
+            }
+        }
+
+// function C() {
+//     return (
+//         <div>
+//             <p>我是C~</p>
+//             <Consumer> // 函数式和类式组件都可以使用这种方式组件使用的这种方式
+//                 {value => {
+//                     console.log(value);
+//                     return <span>{value.username}-{value.age}</span>
+//                 }}
+//             </Consumer>
+//         </div>
+//     )
+// }
     </script>
 </body>
 

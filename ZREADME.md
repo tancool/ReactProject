@@ -1170,3 +1170,7 @@ const CountContainer = connect(mapStateToProps, mapDispatchToProps)(CountUI) // 
     - redux也是使用的是context / provider
     - redux推荐使用的是在最外层包裹一个Provider
 - **这一块的实现的逻辑比较绕,需要自己去梳理下**
+
+## 057_使用redux-thunk管理登陆状态
+- 主要讲的是使用redux-toolkit的默认异步状态管理方案redux-thunk来管理登陆状态
+    - context和redux是成竞争关系的.
