@@ -11,11 +11,15 @@ import { useProjects } from './../../utils/project';
 import { useUsers } from './../../utils/user';
 import { useUrlQueryParam } from 'utils/url';
 import { useProjectsSearchParams } from './until';
+import { useDispatch } from 'react-redux';
+import { projectListActions } from './project-list.slice';
 const apiUrl = process.env.REACT_APP_API_URL;
 /**
  * 这个需要使用Json-Server才能得到数据,这里做个备注.
 */
-export const ProjectListScreen = (props:{projectButton:JSX.Element}) => {
+export const ProjectListScreen = (
+    // props: { projectButton: JSX.Element }
+) => {
     useDocumentTitle('项目列表', false)
     // param是表单的状态
     // const [param , setParam] = useState({
@@ -59,11 +63,19 @@ export const ProjectListScreen = (props:{projectButton:JSX.Element}) => {
     //     // })
     // }); // 第三个参数是监听
 
+    const dispatch = useDispatch()
     return <Container>
         <Row justify={'space-between'}>
             <h2>项目列表</h2>
-            {props.projectButton}
-            {/* <Button onClick={() => console.log('我被触发了')}>创建项目</Button> */}
+            {/* {props.projectButton} */}
+            <Button
+                onClick={
+                    () => {
+                        dispatch(projectListActions.openProjectModal())
+                        console.log('我被触发了')
+                    }
+                }
+            >创建项目</Button>
         </Row>
         <SearchPanel param={param} setParam={setParam} users={users || []}></SearchPanel>
         {error ? <Typography.Text type={'danger'}>{error.message}</Typography.Text> : null}

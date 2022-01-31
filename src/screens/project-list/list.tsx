@@ -7,6 +7,8 @@ import { User } from "./search-panel"
 import { render } from '@testing-library/react';
 import { useEditProject } from "utils/project"
 import { ButtonNoPadding } from 'components/lib';
+import { useDispatch } from "react-redux"
+import { projectListActions } from "./project-list.slice"
 
 // TODO 把所有ID都改为number类型
 export interface Project {
@@ -27,6 +29,7 @@ export const List = ({ users, ...props }: ListProps) => {
     // const pinProject = (id: number, pin: boolean) => mutate({ id, pin }) // 这样把函数放在外面也是可以的.
     const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin }).then(props.refresh) // props.refresh就是一个函数.这样写的话,就是直接调用这个函数.
     let num = 1
+    const dispatch = useDispatch()
     return <div>
         <Table
             pagination={false}
@@ -87,7 +90,10 @@ export const List = ({ users, ...props }: ListProps) => {
                             return <Dropdown overlay={
                                 <Menu>
                                     <Menu.Item key={'edit'}>
-                                        <ButtonNoPadding type={'link'} onClick={()=>console.log('我被编辑了')}>编辑</ButtonNoPadding>
+                                        <ButtonNoPadding 
+                                        type={'link'} 
+                                        onClick={()=>dispatch(projectListActions.openProjectModal())}
+                                        >编辑</ButtonNoPadding>
                                     </Menu.Item>
                                 </Menu>
                             }>

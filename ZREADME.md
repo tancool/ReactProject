@@ -1161,3 +1161,12 @@ const CountContainer = connect(mapStateToProps, mapDispatchToProps)(CountUI) // 
 - 安装命令 yarn add react-redux @reduxjs/toolkit
     - 这里切换了分支,因为toolkit和其他的解决方式是成竞争关系的
 - immer是可以创建一个对象的影子.修改值会创建新的对象
+
+## 056_应用redux_tooklkit管理模态框
+- 需要安装redux的声明的文件
+    - yarn add @types/react-redux -D
+- redux会报一个错
+    - could not find react-redux context value; please ensure the component is wrapped in a <Provider>
+    - redux也是使用的是context / provider
+    - redux推荐使用的是在最外层包裹一个Provider
+- **这一块的实现的逻辑比较绕,需要自己去梳理下**
