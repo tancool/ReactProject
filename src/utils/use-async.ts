@@ -26,8 +26,8 @@ const defaultConfig = {
 
 const useSafeDispatch = <T>(dispatch: (...args: T[]) => void) => {
     const mountedRef = useMountedRef()
-    console.log('---');
-    console.log(mountedRef.current);
+    // console.log('---');
+    // console.log(mountedRef.current);
     return useCallback((...args: T[]) => (mountedRef.current ? dispatch(...args) : void 0),
         [dispatch, mountedRef])
 }
@@ -95,7 +95,7 @@ export const useAsync = <D>(initialState?: State<D>, initConfig?: typeof default
                 })
         }, [config.throwOnError, setError, setData,safeDispatch]
     )
-    console.log(state);
+    // console.log(state);
     
     return {
         isIDle: state.stat === 'idle',

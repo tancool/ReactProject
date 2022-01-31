@@ -10,3 +10,19 @@ export const useProjectsSearchParams = () => {
         setParam
     ] as const
 }
+
+// useProjectModal 扮演的就是一个全局状态管理器的功能
+// 就可以取代redux / context的作用
+export const useProjectModal = () => {
+    const [{ projectCreate }, setProjectCreate] = useUrlQueryParam(['projectCreate'])
+    const open = () => setProjectCreate({ projectCreate: true })
+    const close = () => {
+        // 如果设置为false,是会进行自动隐藏的
+        setProjectCreate({ projectCreate: false })
+    }
+    return {
+        projectModalOpen: projectCreate === 'true',
+        open,
+        close
+    }
+}

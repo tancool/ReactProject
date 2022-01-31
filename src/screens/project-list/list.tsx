@@ -87,7 +87,11 @@ export const List = ({ users, ...props }: ListProps) => {
                             return <Dropdown overlay={
                                 <Menu>
                                     <Menu.Item key={'edit'}>
-                                        <ButtonNoPadding type={'link'} onClick={()=>console.log('我被编辑了')}>编辑</ButtonNoPadding>
+                                        <ButtonNoPadding type={'link'} onClick={() => console.log('我被编辑了')}>编辑</ButtonNoPadding>
+                                    </Menu.Item>
+                                    <Menu.Item key={'delete'}>
+                                        <ButtonNoPadding type={'link'} onClick={() => console.log('我被编辑了')}>删除</ButtonNoPadding>
+
                                     </Menu.Item>
                                 </Menu>
                             }>

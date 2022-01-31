@@ -10,12 +10,15 @@ import { useAsync } from './../../utils/use-async';
 import { useProjects } from './../../utils/project';
 import { useUsers } from './../../utils/user';
 import { useUrlQueryParam } from 'utils/url';
-import { useProjectsSearchParams } from './until';
+import { useProjectModal, useProjectsSearchParams } from './until';
+import { ButtonNoPadding } from 'components/lib';
 const apiUrl = process.env.REACT_APP_API_URL;
 /**
  * 这个需要使用Json-Server才能得到数据,这里做个备注.
 */
-export const ProjectListScreen = (props:{projectButton:JSX.Element}) => {
+export const ProjectListScreen = (
+    // props:{projectButton:JSX.Element}
+) => {
     useDocumentTitle('项目列表', false)
     // param是表单的状态
     // const [param , setParam] = useState({
@@ -30,7 +33,7 @@ export const ProjectListScreen = (props:{projectButton:JSX.Element}) => {
     // TODO 这一块需要了解下  console.log(debouncedParam); 每次数据更新,都会重新重新执行这个函数.
     const { isLoading, error, data: list, retry } = useProjects(debouncedParam);
     const { data: users } = useUsers()
-
+    const { open } = useProjectModal()
     // useEffect(() => {
     //     // client(['projects', { data: cleanObject(debouncedParam) }]); => http返回函数使用 ... 就可以将touple函数修改为普通参数的形式
 
@@ -62,8 +65,14 @@ export const ProjectListScreen = (props:{projectButton:JSX.Element}) => {
     return <Container>
         <Row justify={'space-between'}>
             <h2>项目列表</h2>
-            {props.projectButton}
+            {/* {props.projectButton} */}
             {/* <Button onClick={() => console.log('我被触发了')}>创建项目</Button> */}
+            <ButtonNoPadding
+                type={'link'}
+                onClick={open}
+            >
+                创建项目
+            </ButtonNoPadding>
         </Row>
         <SearchPanel param={param} setParam={setParam} users={users || []}></SearchPanel>
         {error ? <Typography.Text type={'danger'}>{error.message}</Typography.Text> : null}

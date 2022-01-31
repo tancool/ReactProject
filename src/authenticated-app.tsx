@@ -15,44 +15,41 @@ import ProjectModal from './screens/project-list/project-modal';
 import { ProjectPopover } from './components/project-popover';
 // 这就意味着这个图片是一个组件
 export const AuthenticateApp = () => {
-    const [projectModalOpen, setProjectModalOpen] = useState(false)
+    // const [projectModalOpen, setProjectModalOpen] = useState(false)
     return (
         <div>
             {/* 这个代表的是目前的整个登录后的状态 */}
             {/* 如果是直接使用方法名的话,还可以这么写的 */}
             <Container>
-                <PageHeader projectButton={
-                    <ButtonNoPadding
-                        type={'link'}
-                        onClick={() => setProjectModalOpen(true)}
-                    >创建项目
-                    </ButtonNoPadding>
-                } />
-                <Main>
-                    {/* <ProjectListScreen /> */}
-                    <Router>
+                <Router>
+                    <PageHeader />
+                    <Main>
+                        {/* <ProjectListScreen /> */}
                         <Routes>
                             {/* Route也是一个组件,可以直接进行传值. */}
                             <Route path={'/projects'} element={<ProjectListScreen
-                                projectButton={
-                                    <ButtonNoPadding
-                                        type={'link'}
-                                        onClick={() => setProjectModalOpen(true)}
-                                    >创建项目
-                                    </ButtonNoPadding>
-                                } />} ></ Route>
+                            // projectButton={
+                            //     <ButtonNoPadding
+                            //         type={'link'}
+                            //         // onClick={() => setProjectModalOpen(true)}
+                            //     >创建项目
+                            //     </ButtonNoPadding>
+                            // } 
+                            />} ></ Route>
                             <Route path={'/projects/:projectId/*'} element={<ProjectScreen />}></Route>
                             <Route path='*' element={<Navigate to={'/projects'} />} />
                         </Routes >
-                    </Router >
-                </Main>
-                {/* 因为ProjectModal是在哪个层级都可以被打开的,页面层级比较高.所以放在页面层级比较高的上面是比较合适的 */}
-                <ProjectModal projectModalOpen={projectModalOpen} onClose={() => setProjectModalOpen(false)}></ProjectModal>
+                    </Main>
+                    {/* 因为ProjectModal是在哪个层级都可以被打开的,页面层级比较高.所以放在页面层级比较高的上面是比较合适的 */}
+                    <ProjectModal></ProjectModal>
+                </Router >
             </Container>
         </div>
     )
 }
-const PageHeader = (props: { projectButton: JSX.Element }) => {
+const PageHeader = (
+    // props: { projectButton: JSX.Element }
+) => {
     return (<Header between={true}>
         <HeaderLeft gap={true}>
             {/* <img src={softwareLogo} alt="" /> */}
@@ -60,7 +57,9 @@ const PageHeader = (props: { projectButton: JSX.Element }) => {
                 <SoftwareLogo width={'18rem'} color='rgb(38,132,255)' />
             </ButtonNoPadding>
             {/* <h2>项目</h2> */}
-            <ProjectPopover  {...props} />
+            <ProjectPopover
+            //  {...props}
+            />
             <h2>用户</h2>
         </HeaderLeft>
         <HeaderRight>

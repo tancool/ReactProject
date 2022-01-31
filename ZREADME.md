@@ -1145,3 +1145,48 @@ const CountContainer = connect(mapStateToProps, mapDispatchToProps)(CountUI) // 
     - render props
     - hook
         - 实现原理是闭包
+## 54_为什么我们需要react-thunk
+- 异步操作被认为不是纯函数.
+- redux的设计理念和react是相似的.
+    - 其中比较state的对象,是比较的引用地址.
+- redux-thunk是用来处理异步最流行的库
+    - 可以帮助我们隐藏一部或者同步的细节
+
+## 055_配置redux-toolkit
+- 使用redux-toolkit也就相当于使用redux.
+    - redux-toolkit在redux的基础上封装,解决了三个问题.将复杂逻辑简单化的redux.现在也逐渐成为了使用redux的标准方式
+        - 解决redux配置复杂
+        - 需要安装更多的依赖
+        - 需要很多模板代码.
+- 安装命令 yarn add react-redux @reduxjs/toolkit
+    - 这里切换了分支,因为toolkit和其他的解决方式是成竞争关系的
+- immer是可以创建一个对象的影子.修改值会创建新的对象
+
+## 056_应用redux_tooklkit管理模态框
+- 需要安装redux的声明的文件
+    - yarn add @types/react-redux -D
+- redux会报一个错
+    - could not find react-redux context value; please ensure the component is wrapped in a <Provider>
+    - redux也是使用的是context / provider
+    - redux推荐使用的是在最外层包裹一个Provider
+- **这一块的实现的逻辑比较绕,需要自己去梳理下**
+
+## 057_使用redux-thunk管理登陆状态
+- 主要讲的是使用redux-toolkit的默认异步状态管理方案redux-thunk来管理登陆状态
+    - context和redux是成竞争关系的.
+
+## 058_使用url参数管理项目模态框状态
+- 在原本的方案里使用到的是context,并不会使用到redux
+    - 线上项目的ProjectModal使用的url进行状态.
+- 返回tuple最大的好处是,返回值可以任意明明
+    - 一般来说,返回的数据在三个以内.用toupe是比较合适的
+    - 超过三个之后,使用对象是比较合适的.
+        - 对象不好的地方就是名字被限制住了
+```
+// 类似于这样,接受的时候.可以任意命名
+    return [
+     projectCreate === 'true',
+     open,
+     close   
+    ] as const
+```
