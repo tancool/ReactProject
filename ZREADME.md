@@ -1190,11 +1190,29 @@ const CountContainer = connect(mapStateToProps, mapDispatchToProps)(CountUI) // 
      close   
     ] as const
 ```
-## 059_使用react-query来处理服务器缓存
-- react-query: 把数据用缓存的思路来进行处理
+## 059_使用react-query来处理服务器缓存  
+- react-query: 把数据用缓存的思路来进行处理.这个缓存是概念上的缓存
     - 此外,还有一个类似react-query的库.叫做SWR
     - 这个缓存在整个软件所有的地方都可以访问缓存,也可以对缓存进行更新.
     - 把redux的全局状态.换一个思路去理解.理解为缓存.reqct-query类似于redis的思路
 
+## 060_类型守卫,用useQuery缓存工程列表
+- 安装react-query.目前使用的版本是3.34
+- 如果是unknow,是不可以读取上面任何的属性的
+    - 这里的解决办法是手动传入泛型
+    - 或者是使用类型守卫
+- 类型守卫,主要目的是为了解决类型匹配的问题.
+    - 如果isError的返回值为true的话,后续的TS就会把error当作为真正的Error类型
+```
+// 类型守卫
+const isError = (value: any): value is Error => value?.message
 
-    
+// 由于React-Query返回的格式是unknow,这里需要使用到类型守卫.
+export const ErrorBox = ({ error }: { error: unknown }) => {
+    if (isError(error)) {
+        return <Typography.Text type={'danger'}>{error.message}</Typography.Text>
+    }
+    return null
+}
+```
+- react最擅长的就是获取列表数据.这样react-query就更多的扮演到之前的useAsync的角色

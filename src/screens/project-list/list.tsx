@@ -19,10 +19,10 @@ export interface Project {
 }
 interface ListProps extends TableProps<Project> {
     users: User[],
-    refresh: () => void
+    refresh?: () => void
 }
 export const List = ({ users, ...props }: ListProps) => {
-    const { mutate } = useEditProject() // 这样就得到了mutate函数
+    const { mutate }= useEditProject() // 这样就得到了mutate函数
 
     // const pinProject = (id: number, pin: boolean) => mutate({ id, pin }) // 这样把函数放在外面也是可以的.
     const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin }).then(props.refresh) // props.refresh就是一个函数.这样写的话,就是直接调用这个函数.
