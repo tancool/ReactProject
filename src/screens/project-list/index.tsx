@@ -31,7 +31,7 @@ export const ProjectListScreen = (
     // const [users, setUsers] = useState([]);
     const debouncedParam = useDebounce(param, 2000); // 当每次数据执行setXXX的时候，这个函数都会被重新赋值,上个函数也就会被更新.
     // TODO 这一块需要了解下  console.log(debouncedParam); 每次数据更新,都会重新重新执行这个函数.
-    const { isLoading, error, data: list, retry } = useProjects(debouncedParam);
+    const { isLoading, error, data: list } = useProjects(debouncedParam);
     const { data: users } = useUsers()
     const { open } = useProjectModal()
     // useEffect(() => {
@@ -76,7 +76,7 @@ export const ProjectListScreen = (
         </Row>
         <SearchPanel param={param} setParam={setParam} users={users || []}></SearchPanel>
         {error ? <Typography.Text type={'danger'}>{error.message}</Typography.Text> : null}
-        <List refresh={retry} dataSource={list || []} users={users || []} loading={isLoading}></List>
+        <List  dataSource={list || []} users={users || []} loading={isLoading}></List>
     </Container>
 }
 const Container = styled.div`

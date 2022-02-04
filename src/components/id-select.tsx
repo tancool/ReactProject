@@ -6,8 +6,8 @@ import { Raw } from 'types'
 // 当子类型存在父类型的Props的时候.不是简单的覆盖.而是取得一个最大公约数.
 type SelectProps = React.ComponentProps<typeof Select>
 interface IdSelectProps extends Omit<SelectProps, 'value' | 'onChange' | 'defaultOptionName' | 'options'> {
-    value: Raw | null | undefined,// 当转入的值的时候,都为number
-    onChange: (valie?: number) => void,
+    value?: Raw | null | undefined,// 当转入的值的时候,都为number
+    onChange?: (valie?: number) => void,
     defaultOptionName?: string,// 作为默认值存在的
     options?: { name: string, id: number }[]
 }
@@ -24,7 +24,7 @@ export default function IdSelect(props: IdSelectProps) {
         <Select
             // Select的value如果没有匹配到的话,那么默认就是显示的id
             value={options?.length ? toNumber(value) : 0}
-            onChange={value => onChange(toNumber(value) || undefined)}
+            onChange={value => onChange?.(toNumber(value) || undefined)}
             {...restProps}
         >
             {

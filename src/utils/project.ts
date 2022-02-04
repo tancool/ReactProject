@@ -85,7 +85,7 @@ export const useAddProject = () => {
     // 使用React-query
     const queryClient = useQueryClient()
     return useMutation(
-        (params: Partial<Project>) => client(`projects/${params.id}`, {
+        (params: Partial<Project>) => client(`projects`, {
             data: params,
             method: 'POST'
         }),
@@ -102,7 +102,7 @@ export const useProject = (id?: number) => {
     const client = useHTTP()
     return useQuery<Project>(
         ['projet', { id }],
-        () => client(`project/${id}`),
+        () => client(`projects/${id}`),
         {
             enabled:!!id
         }
