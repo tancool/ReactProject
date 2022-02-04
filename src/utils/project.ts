@@ -73,7 +73,7 @@ export const useAddProject = () => {
     // const { run, ...asyncResult } = useAsync()
     // const mutate = (params: Partial<Project>) => {
     //     return run(client(`projects/${params.id}`, {
-    //         data: params,
+    //         data: params, 
     //         method: 'POST'
     //     }))
     // }
@@ -95,4 +95,16 @@ export const useAddProject = () => {
         }
     )
 
+}
+
+// 获取Project详情
+export const useProject = (id?: number) => {
+    const client = useHTTP()
+    return useQuery<Project>(
+        ['projet', { id }],
+        () => client(`project/${id}`),
+        {
+            enabled:!!id
+        }
+    )
 }

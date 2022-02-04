@@ -5,7 +5,7 @@ import { useProjectModal } from './until';
 export default function ProjectModal(
     // props: { projectModalOpen: boolean, onClose: () => void }
 ) {
-    const { projectModalOpen, close } = useProjectModal()
+    const { projectModalOpen, close,editingProject,isLoading } = useProjectModal()
     return <Drawer
         // onClose={props.onClose}
         // visible={props.projectModalOpen}
