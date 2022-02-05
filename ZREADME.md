@@ -1245,3 +1245,4 @@ export const ErrorBox = ({ error }: { error: unknown }) => {
     - url[浏览器的url] / redux / context
 
 - 也有一种解决办法是全用同一种方式.比如说全用redux.但是这种方式会带来的问题是,会得到一个庞大的redux树.
+## 067_
