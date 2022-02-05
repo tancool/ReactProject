@@ -1,10 +1,11 @@
 import { useCallback, useEffect } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { QueryKey, useMutation, useQuery, useQueryClient } from "react-query";
 import { Project } from "screens/project-list/list";
 import { useProjectsSearchParams } from "screens/project-list/until";
 import { cleanObject } from "utils";
 import { useHTTP } from "./http";
 import { useAsync } from "./use-async";
+import { useAddConfig, useDeleteConfig, useEditConfig } from "./use-optimistic.options";
 
 export const useProjects = (param?: Partial<Project>) => {
     // TODO 这一块需要了解下  console.log(debouncedParam); 每次数据更新,都会重新重新执行这个函数.
@@ -41,7 +42,7 @@ export const useProjects = (param?: Partial<Project>) => {
 
 }
 
-export const useEditProject = () => {
+export const useEditProject = (queryKey: QueryKey) => {
     const client = useHTTP()
     // const { run, ...asyncResult } = useAsync()
     // const mutate = (params: Partial<Project>) => {
@@ -56,34 +57,45 @@ export const useEditProject = () => {
     // }
 
     // 这个是React-query的hook
-    const queryClient = useQueryClient()
-    const [searchParams] = useProjectsSearchParams()
-    const queryKey = ['projects', searchParams]
+    // const queryClient = useQueryClient()
+    // const [searchParams] = useProjectsSearchParams()
+    // const queryKey = ['projects', searchParams]
+    // const queryKey = ['projects', useProjectsSearchParams()]
     return useMutation(
         (params: Partial<Project>) => client(`projects/${params.id}`, {
             method: 'PATCH',
             data: params
         }),
-        {
-            // 成功时的回调函数
-            onSuccess: () => queryClient.invalidateQueries(queryKey),
-            async onMutate(target: Partial<Project>) { // target存储的是当前的数据
-                const previousItems = queryClient.getQueriesData(queryKey)
-                queryClient.setQueriesData(queryKey, (old?: Project[]) => {
-                    return old?.map(project => project.id == target.id ? { ...project, ...target } : project) || []
-                })
+        useEditConfig(queryKey)
+        // {
+        //     // 成功时的回调函数
+        //     onSuccess: () => queryClient.invalidateQueries(queryKey),
+        //     async onMutate(target: Partial<Project>) { // target存储的是当前的数据
+        //         const previousItems = queryClient.getQueriesData(queryKey)
+        //         queryClient.setQueriesData(queryKey, (old?: Project[]) => {
+        //             return old?.map(project => project.id == target.id ? { ...project, ...target } : project) || []
+        //         })
 
-                return { previousItems }
-            },
-            onError(error, newItem: Partial<Project>, context) {
-                queryClient.setQueriesData(queryKey, (context as { previousItems: Project }).previousItems)
-            }
-        },
+        //         return { previousItems }
+        //     },
+        //     onError(error, newItem: Partial<Project>, context) {
+        //         queryClient.setQueriesData(queryKey, (context as { previousItems: Project }).previousItems)
+        //     }
+        // },
 
     )
 }
 
-export const useAddProject = () => {
+export const useDeleteProject = (queryKey: QueryKey) => {
+    const client = useHTTP()
+    return useMutation(
+        ({ id }: { id: number }) => client(`projects/${id}`, {
+            method: 'DELETE',
+        }),
+        useDeleteConfig(queryKey)
+    )
+}
+export const useAddProject = (queryKey: QueryKey) => {
     const client = useHTTP()
     // const { run, ...asyncResult } = useAsync()
     // const mutate = (params: Partial<Project>) => {
@@ -104,10 +116,11 @@ export const useAddProject = () => {
             data: params,
             method: 'POST'
         }),
-        {
-            // 成功时的回调函数
-            onSuccess: () => queryClient.invalidateQueries('projects')
-        }
+        // {
+        //     // 成功时的回调函数
+        //     onSuccess: () => queryClient.invalidateQueries('projects')
+        // }
+        useAddConfig(queryKey)
     )
 
 }

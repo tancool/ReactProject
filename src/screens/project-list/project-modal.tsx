@@ -7,6 +7,7 @@ import { useAddProject, useEditProject } from 'utils/project';
 import { useForm } from 'antd/lib/form/Form';
 import { ErrorBox } from 'components/lib';
 import  styled  from '@emotion/styled';
+import { useProjectsQueryKey } from 'utils/use-optimistic.options';
 
 // 整个创建加编辑的Modal
 export default function ProjectModal(
@@ -16,7 +17,7 @@ export default function ProjectModal(
     const useMutateProjet = editingProject ? useEditProject : useAddProject // 不论最后怎么得到的,依然是一个hook,所以这里依然用hook去命名 '
 
     const [form] = useForm()
-    const { mutateAsync, error, isLoading: mutateLoading } = useMutateProjet()
+    const { mutateAsync, error, isLoading: mutateLoading } = useMutateProjet(useProjectsQueryKey())
     const onFinish = (values: any) => {
         mutateAsync({ ...editingProject, ...values }).then(() => {
             form.resetFields()
