@@ -9,6 +9,7 @@ export const useUrlQueryParam = <K extends string>(keys: K[]) => {
     // 不可以直接读取[.] 参数的.
     // 如果直接读取的话,是会进行报错的.
     const [searchParams, setSearchParam] = useSearchParams()
+    const setSearchParams = useSetUrlSearchParam()
     return [
         useMemo(
             () => keys.reduce((prev, key: K) => {
@@ -24,8 +25,9 @@ export const useUrlQueryParam = <K extends string>(keys: K[]) => {
             // unknow表示对象值的类型是没有关系的.
             // Object.fromEntries 是Object.enteris的你操作.
             // iteartor是一个遍历器.[],{},Map都是部署了iteartor的.部署了iteartor的都可以使用for of 进行操作的
-            const o = cleanObject({ ...Object.fromEntries(searchParams), ...params }) as URLSearchParamsInit
-            return setSearchParam(o)
+            // const o = cleanObject({ ...Object.fromEntries(searchParams), ...params }) as URLSearchParamsInit
+            // return setSearchParam(o)
+            return setSearchParams(params)
         }
     ] as const
 }
@@ -37,15 +39,23 @@ const a = ['jack', 12, { gender: 'male' }] as const
 
 // 通过这个单独得 hook 来 set search param
 // 把输入框的内容映射到url地址上
-export const useSetUrlSearchParam = () => {
-    const [searchParams, setSearchParams] = useSearchParams()
+export const useSetAllUrlSearchParam = () => {
+    // const [searchParams, setSearchParams] = useSearchParams()
+    const setSearchParams = useSetUrlSearchParam()
     return (params: { [key in string]: unknown }) => {
-        const o = cleanObject({
-            ...Object.fromEntries(searchParams),
-            ...params
-        }) as URLSearchParamsInit
-        console.log(o);
+        // const o = cleanObject({
+        //     ...Object.fromEntries(searchParams),
+        //     ...params
+        // }) as URLSearchParamsInit
+        // return setSearchParams(o)
+        return setSearchParams(params)
+    }
+}
 
-        return setSearchParams(o)
+export const useSetUrlSearchParam = () => {
+    const [searchParams, setSearchParam] = useSearchParams()
+    return (params: { [key in string]: unknown }) => {
+        const o = cleanObject({ ...Object.fromEntries(searchParams), ...params }) as URLSearchParamsInit
+        return setSearchParam(o)
     }
 }

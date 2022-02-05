@@ -1,6 +1,6 @@
 import { useMemo } from "react"
 import { useProject } from "utils/project"
-import { useSetUrlSearchParam, useUrlQueryParam } from "utils/url"
+import { useSetAllUrlSearchParam, useUrlQueryParam } from "utils/url"
 
 // 项目列表搜索的参数
 export const useProjectsSearchParams = () => {
@@ -17,7 +17,7 @@ export const useProjectsSearchParams = () => {
 export const useProjectModal = () => {
     const [{ projectCreate }, setProjectCreate] = useUrlQueryParam(['projectCreate']) // 判断是否是在创建阶段
     const [{ editingProjectId }, setEditingProjectId] = useUrlQueryParam(['editingProjectId']) // 判断是否是在编辑阶段
-    const setUrlParams = useSetUrlSearchParam()
+    const setUrlParams = useSetAllUrlSearchParam()
     const { data: editingProject, isLoading } = useProject(Number(editingProjectId))
     const open = () => { setProjectCreate({ projectCreate: true }) }
     const close = () => {

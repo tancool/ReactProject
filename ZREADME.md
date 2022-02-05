@@ -1232,3 +1232,5 @@ export const ErrorBox = ({ error }: { error: unknown }) => {
 
 ## 064_抽象乐观更新通用hook
 - 这节课主要抽象了乐观更新.以及完成了乐观更新的删除功能
+
+## 065_修复url多余参数
