@@ -110,7 +110,6 @@ export const useAddProject = (queryKey: QueryKey) => {
     // }
 
     // 使用React-query
-    const queryClient = useQueryClient()
     return useMutation(
         (params: Partial<Project>) => client(`projects`, {
             data: params,

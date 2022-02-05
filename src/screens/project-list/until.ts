@@ -1,6 +1,6 @@
 import { useMemo } from "react"
 import { useProject } from "utils/project"
-import { useSetAllUrlSearchParam, useUrlQueryParam } from "utils/url"
+import { useSetUrlSearchParam, useUrlQueryParam } from "utils/url"
 
 // 项目列表搜索的参数
 export const useProjectsSearchParams = () => {
@@ -17,7 +17,7 @@ export const useProjectsSearchParams = () => {
 export const useProjectModal = () => {
     const [{ projectCreate }, setProjectCreate] = useUrlQueryParam(['projectCreate']) // 判断是否是在创建阶段
     const [{ editingProjectId }, setEditingProjectId] = useUrlQueryParam(['editingProjectId']) // 判断是否是在编辑阶段
-    const setUrlParams = useSetAllUrlSearchParam()
+    const setUrlParams = useSetUrlSearchParam()
     const { data: editingProject, isLoading } = useProject(Number(editingProjectId))
     const open = () => { setProjectCreate({ projectCreate: true }) }
     const close = () => {
@@ -33,12 +33,13 @@ export const useProjectModal = () => {
     }
     const startEdit = (id: number) => setEditingProjectId({ editingProjectId: id })
     return {
-        projectModalOpen: projectCreate === 'true' || Boolean(editingProjectId),
         open,
+        // 如果Boolean(editingProject),这样的设置会导致只有拿到数据之后,界面才会显示出来.
+        // 而现在的值是editingProjectId , 则意味着只要是拿到ID之后.就会进行相关的显示
+        projectModalOpen: projectCreate === 'true' || Boolean(editingProjectId), 
         close,
         startEdit,
         editingProject,
         isLoading
     }
 }
-// 14.47

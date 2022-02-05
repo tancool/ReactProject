@@ -6,7 +6,7 @@ import UserSelect from 'components/user-select';
 import { useAddProject, useEditProject } from 'utils/project';
 import { useForm } from 'antd/lib/form/Form';
 import { ErrorBox } from 'components/lib';
-import  styled  from '@emotion/styled';
+import styled from '@emotion/styled';
 import { useProjectsQueryKey } from 'utils/use-optimistic.options';
 
 // 整个创建加编辑的Modal
@@ -14,6 +14,7 @@ export default function ProjectModal(
     // props: { projectModalOpen: boolean, onClose: () => void }
 ) {
     const { projectModalOpen, close, editingProject, isLoading } = useProjectModal()
+    // 判断是否是编辑状态.
     const useMutateProjet = editingProject ? useEditProject : useAddProject // 不论最后怎么得到的,依然是一个hook,所以这里依然用hook去命名 '
 
     const [form] = useForm()
@@ -25,6 +26,11 @@ export default function ProjectModal(
         })
     }
 
+    const closeModal = () => {
+        form.resetFields()
+        close()
+    }
+
     const title = editingProject ? '编辑项目' : '创建项目'
 
     useEffect(() => {
@@ -33,7 +39,7 @@ export default function ProjectModal(
     return <Drawer
         // onClose={props.onClose}
         // visible={props.projectModalOpen}
-        onClose={close}
+        onClose={closeModal}
         visible={projectModalOpen}
         width={'100%'}
         forceRender={true}
@@ -54,7 +60,7 @@ export default function ProjectModal(
                         <Form.Item label={'负责人'} name={'personId'}>
                             <UserSelect defaultOptionName={'负责人'}></UserSelect>
                         </Form.Item>
-                        <Form.Item style={{textAlign: 'right'}}>
+                        <Form.Item style={{ textAlign: 'right' }}>
                             <Button loading={mutateLoading} type={'primary'} htmlType={'submit'}>提交</Button>
                         </Form.Item>
                     </Form>
