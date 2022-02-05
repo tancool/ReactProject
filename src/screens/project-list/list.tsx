@@ -3,22 +3,23 @@ import Pin from "components/pin"
 import dayjs from "dayjs"
 import React from "react"
 import { Link } from "react-router-dom"
-import { User } from "./search-panel"
 import { render } from '@testing-library/react';
 import { useDeleteProject, useEditProject } from "utils/project"
 import { ButtonNoPadding } from 'components/lib';
 import { useProjectModal } from "./until"
 import { useDeleteConfig, useProjectsQueryKey } from "utils/use-optimistic.options"
+import { Project } from "types/project"
+import { User } from "types/user"
 
 // TODO 把所有ID都改为number类型
-export interface Project {
-    id: number,
-    name: string,
-    personId: number,
-    pin: boolean,
-    organization: string,
-    created: number
-}
+// export interface Project {
+//     id: number,
+//     name: string,
+//     personId: number,
+//     pin: boolean,
+//     organization: string,
+//     created: number
+// }
 interface ListProps extends TableProps<Project> {
     users: User[],
     refresh?: () => void

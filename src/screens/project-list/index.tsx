@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { cleanObject, useDocumentTitle } from 'utils';
 import { SearchPanel } from './search-panel'
-import { List, Project } from './list';
+import { List } from './list';
 import { useMount, useDebounce } from './../../utils/index';
 import { useHTTP } from 'utils/http';
 import styled from '@emotion/styled';

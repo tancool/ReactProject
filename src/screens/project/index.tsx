@@ -14,8 +14,8 @@ export const ProjectScreen = () => {
         <Routes>
             <Route path={'kanban'} element={<KanbanScreen />} />
             <Route path={'epic'} element={<EpicScreen />} />
-        {/* 如果都没有匹配到,那么就默认跳转到看板 */}
-            <Route path='*' element={<Navigate to={'kanban'} />} />
+            {/* 如果都没有匹配到,那么就默认跳转到看板.这个是默认路由 */}
+            <Route path='*' element={<Navigate to={'kanban'} replace={true} />} />
         </Routes>
     </div>
 }

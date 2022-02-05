@@ -4,16 +4,8 @@ import styled from "@emotion/styled";
 import { Form, Input, Select } from 'antd';
 import UserSelect from "components/user-select";
 import React, { useEffect, useState } from 'react';
-import { Project } from 'screens/project-list/list';
-export interface User {
-    id: number,
-    name: string,
-    email: string,
-    title: string,
-    organization: string,
-    token: string
-}
-
+import { Project } from "types/project";
+import { User } from "types/user";
 interface searchPanelProps {
     users: User[],
     param: Partial<Pick<Project, 'name' | 'personId'>>
