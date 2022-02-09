@@ -1266,3 +1266,7 @@ export const ErrorBox = ({ error }: { error: unknown }) => {
     - 在TS中,设置 = []. 是添加默认数据
 - 遇到map,不要忘记添加key
 - react-query会做一件事.如果固定时间内发送相同的参数到相同的接口.那么会把他们合并起来,只发送一个.
+
+## 070_添加task bug 图标
+- 后端给一个type.用typeId获取type的明细
+- svg图片代码出现了一些错误.需要修改webpack配置,这里由于时间限制,手动修改了svg图片内容
