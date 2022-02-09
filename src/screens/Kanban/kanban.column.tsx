@@ -7,6 +7,7 @@ import taskIcon from 'assets/task.svg';
 import bugIcon from 'assets/bug.svg';
 import styled from '@emotion/styled';
 import { Card } from 'antd';
+import { CreateTask } from './create-task';
 
 
 // icon图标的渲染
@@ -18,7 +19,13 @@ const TaskTypeIcon = ({ id }: { id: number }) => {
 }
 export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
     const { data: allTasks } = useTasks(useTasksSearchParams())
-    const tasks = allTasks?.filter(task => task.id === kanban.id)
+    const tasks = allTasks?.filter(task => {
+        return task.kanbanId === kanban.id
+    })
+    console.log('查看相关的数据');
+    console.log(tasks);
+
+
     return <Container>
         <h2>{kanban.name}</h2>
         <TasksContainer>
@@ -29,11 +36,12 @@ export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
                     </div>
                     <TaskTypeIcon id={task.typeId} />
                 </Card>)}
+            <CreateTask kanbanId={kanban.id} />
         </TasksContainer>
     </Container>
 }
 
-const Container = styled.div`
+export const Container = styled.div`
 min-width: 27rem;
 border-radius: 6px;
 background-color:rgb(244,245,247);
