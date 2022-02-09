@@ -1273,3 +1273,6 @@ export const ErrorBox = ({ error }: { error: unknown }) => {
 
 ## 071_添加任务搜索功能
 - 完成了代码添加功能
+
+## 072_优化看板样式
+- flex容器中的子元素的和父元素的元素默认是一样高的

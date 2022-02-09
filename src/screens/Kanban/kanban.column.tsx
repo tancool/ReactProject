@@ -20,7 +20,7 @@ export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
     const { data: allTasks } = useTasks(useTasksSearchParams())
     const tasks = allTasks?.filter(task => task.id === kanban.id)
     return <Container>
-        <h3>{kanban.name}</h3>
+        <h2>{kanban.name}</h2>
         <TasksContainer>
             {tasks?.map(task =>
                 <Card style={{ marginBottom: '.5rem' }} key={task.id}>
