@@ -3,8 +3,8 @@ import React from 'react';
 import { useTasks } from 'utils/task';
 import { useTasksSearchParams } from './util';
 import { useTaskTypes } from 'utils/task-type';
-import TaskIcon from 'assets/task.svg';
-import BugIcon from 'assets/bug.svg';
+import taskIcon from 'assets/task.svg';
+import bugIcon from 'assets/bug.svg';
 import styled from '@emotion/styled';
 import { Card } from 'antd';
 
@@ -14,11 +14,7 @@ const TaskTypeIcon = ({ id }: { id: number }) => {
     const { data: taskTypes } = useTaskTypes()
     const name = taskTypes?.find(taskType => taskType.id === id)?.name
     if (!name) return null
-    // console.log(taskIcon);
-    // console.log(bugIcon);
-    console.log(name);
-
-    return <img alt={'task-icon'} src={TaskIcon} />
+    return <img alt={'task-icon'} src={name === 'task' ? taskIcon : bugIcon} />
 }
 export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
     const { data: allTasks } = useTasks(useTasksSearchParams())
@@ -29,9 +25,9 @@ export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
             {tasks?.map(task =>
                 <Card style={{ marginBottom: '.5rem' }} key={task.id}>
                     <div>
-                        <TaskTypeIcon id={task.typeId} />
                         {task.name}
                     </div>
+                    <TaskTypeIcon id={task.typeId} />
                 </Card>)}
         </TasksContainer>
     </Container>
