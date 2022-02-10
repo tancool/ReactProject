@@ -74,12 +74,12 @@ const User = () => {
     return <Dropdown overlay={
         <Menu>
             <Menu.Item key={'logout'}>
-                <Button onClick={logout}>登出</Button>
+                <Button onClick={logout} type={'link'}>登出</Button>
             </Menu.Item>
         </Menu>
     }>
         {/* 取消默认事件,防止页面刷新 */}
-        <Button onClick={e => e.preventDefault()}>你好 {user?.name || '用户'}</Button>
+        <Button onClick={e => e.preventDefault()} type={'link'}>你好 {user?.name || '用户'}</Button>
     </Dropdown>
 }
 
