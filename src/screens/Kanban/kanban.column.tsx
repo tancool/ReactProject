@@ -12,6 +12,7 @@ import { Task } from 'types/task';
 import { Mark } from 'components/mark';
 import { useDeleteKanban } from 'utils/kanban';
 import { Row } from 'components/lib';
+import { Drag, Drop, DropChild } from 'components/drag-and-drop';
 
 
 // icon图标的渲染
@@ -37,23 +38,39 @@ const TaskCard = ({ task }: { task: Task }) => {
         <TaskTypeIcon id={task.typeId} />
     </Card>
 }
-export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
+// 渲染了三个column，三个请求，整合成一个
+export const KanbanColumn = React.forwardRef<HTMLDivElement, { kanban: Kanban }>(({ kanban, ...props }, ref) => {
+    // 获取全部的任务数据，在这里获取数据，这个数据是动态的，根据url内容而定
     const { data: allTasks } = useTasks(useTasksSearchParams())
-    const tasks = allTasks?.filter(task => {
-        return task.kanbanId === kanban.id
-    })
-    return <Container>
+    // 对数据进行分类，返回的是三段数据，都是数组
+    // 通过typeId来判断是什么类型
+    const tasks = allTasks?.filter(task => task.kanbanId === kanban.id)
+    
+    return <Container ref={ref} {...props} >
         <Row between={true}>
-            <h2>{kanban.name}</h2>
-            <More kanban={kanban} />
+            <h3>{kanban.name} </h3>
+            <More kanban={kanban} key={kanban.id} />
         </Row>
+
         <TasksContainer>
-            {tasks?.map(task => <TaskCard task={task} />)
-            }
+            {/* 用drop包裹父元素，用 drag 来包裹要被拖拽的元素 */}
+            <Drop type={"ROW"} direction={"vertical"} droppableId={String(kanban.id)}>
+                {/* 没有高度撑不起来了 */}
+                <DropChild style={{minHeight:'5px'}}>
+                    {
+                        tasks?.map((task, taskIndex) =>
+                            <Drag key={task.id} index={taskIndex} draggableId={'task' + task.id} >
+                                <div>
+                                    <TaskCard key={task.id} task={task} />
+                                </div>
+                            </Drag>)
+                    }
+                </DropChild>
+            </Drop>
             <CreateTask kanbanId={kanban.id} />
         </TasksContainer>
     </Container>
-}
+})
 
 const More = ({ kanban }: { kanban: Kanban }) => {
     const { mutateAsync } = useDeleteKanban(useKanbanQueryKey())

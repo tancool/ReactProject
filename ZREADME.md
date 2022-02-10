@@ -1294,3 +1294,7 @@ export const ErrorBox = ({ error }: { error: unknown }) => {
 - 拖拽也不是经常使用的功能
 - React.cloneElement是克隆的一个行为.
 - React.forwardRef=>这个是用户传入的时候,可以使用ref
+
+## 077_拖拽实现[下]
+
+## 078_托转持久化[上]

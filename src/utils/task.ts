@@ -2,7 +2,8 @@ import { QueryKey, useMutation, useQuery } from "react-query";
 import { Project } from "types/project";
 import { Task } from "types/task";
 import { useHTTP } from "./http";
-import { useDeleteConfig, useEditConfig } from "./use-optimistic.options";
+import { SortProps } from "./kanban";
+import { useDeleteConfig, useEditConfig, useReorderTaskConfig } from "./use-optimistic.options";
 
 export const useTasks = (param?: Partial<Task>) => {
     const client = useHTTP()
@@ -41,5 +42,18 @@ export const useDeleteTask = (queryKey: QueryKey) => {
             method: 'DELETE',
         }),
         useDeleteConfig(queryKey)
+    )
+}
+// 用于数据持久化的接口
+export const useReorderTask = (queryKey:QueryKey) => {
+    const client = useHTTP()
+    return useMutation(
+        (params: SortProps) => {
+            return client('tasks/reorder', {
+                data: params,
+                method: "POST"
+            })
+        },
+        useReorderTaskConfig(queryKey)
     )
 }
