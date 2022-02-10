@@ -1286,3 +1286,11 @@ export const ErrorBox = ({ error }: { error: unknown }) => {
 - 完成了搜索框的debounce设置.但是由于版本的原因.除了一些bug.现在搜索没有使用到debounce
 
 ## 075_看板和任务删除功能
+- 主要完成了看板页面的删除功能
+
+## 076_拖拽实现[上]
+- 完成拖拽的库是 react-beautiful-dnd
+  - 众多的拖拽库中的一个
+- 拖拽也不是经常使用的功能
+- React.cloneElement是克隆的一个行为.
+- React.forwardRef=>这个是用户传入的时候,可以使用ref
