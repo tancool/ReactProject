@@ -8,7 +8,7 @@ import { ButtonNoPadding } from './lib';
 export const ProjectPopover = (
   // props:{ projectButton: JSX.Element }
 ) => {
-  const { data: projects, isLoading } = useProjects()
+  const { data: projects, refetch } = useProjects()
   const pinnedProjects = projects?.filter(project => project.pin) // 获得所有的收藏项目
   const { open } = useProjectModal()
   const context = <ContentContainer>
@@ -31,7 +31,11 @@ export const ProjectPopover = (
     </ButtonNoPadding>
   </ContentContainer>
 
-  return <Popover placement={'bottom'} content={context}>
+  return <Popover
+    placement={'bottom'}
+    content={context}
+    onVisibleChange={() => refetch()}
+  >
     <span>项目</span>
   </Popover>
 }

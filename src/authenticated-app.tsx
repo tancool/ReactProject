@@ -13,6 +13,7 @@ import { resetRoute } from 'utils';
 import { useState } from 'react';
 import ProjectModal from './screens/project-list/project-modal';
 import { ProjectPopover } from './components/project-popover';
+import { UserPopover } from 'components/user-popover';
 // 这就意味着这个图片是一个组件
 export const AuthenticateApp = () => {
     // const [projectModalOpen, setProjectModalOpen] = useState(false)
@@ -60,7 +61,8 @@ const PageHeader = (
             <ProjectPopover
             //  {...props}
             />
-            <h2>用户</h2>
+            <UserPopover />
+            {/* <span>用户</span> */}
         </HeaderLeft>
         <HeaderRight>
             <User />
