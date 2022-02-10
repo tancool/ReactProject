@@ -94,6 +94,7 @@ z-index: 1;
 `;
 const Main = styled.main`
 display: flex;
+overflow: hidden;
 `;
 const HeaderLeft = styled(Row)``;
 const HeaderRight = styled.div``;

@@ -76,9 +76,10 @@ export const ProjectListScreen = (
         </Row>
         <SearchPanel param={param} setParam={setParam} users={users || []}></SearchPanel>
         {error ? <Typography.Text type={'danger'}>{error.message}</Typography.Text> : null}
-        <List  dataSource={list || []} users={users || []} loading={isLoading}></List>
+        <List dataSource={list || []} users={users || []} loading={isLoading}></List>
     </Container>
 }
 const Container = styled.div`
 padding: 3.2rem;
+flex-grow: 1;
 `
