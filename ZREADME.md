@@ -1284,3 +1284,5 @@ export const ErrorBox = ({ error }: { error: unknown }) => {
 ## 074_编辑任务功能
 - 主要完成了任务的编辑功能
 - 完成了搜索框的debounce设置.但是由于版本的原因.除了一些bug.现在搜索没有使用到debounce
+
+## 075_看板和任务删除功能
