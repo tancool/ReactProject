@@ -93,6 +93,7 @@ box-shadow:  0 0 5px 0 rgba(0,0,0,0.1);
 z-index: 1;
 `;
 const Main = styled.main`
+display: flex;
 `;
 const HeaderLeft = styled(Row)``;
 const HeaderRight = styled.div``;

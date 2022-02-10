@@ -1302,3 +1302,6 @@ export const ErrorBox = ({ error }: { error: unknown }) => {
 
 ## 079_拖拽持久化[下]
 - 这块知识的前置知识应该是熟悉React以及react-beautiful-dnd.现在直接学习的话,理解起来梯度过大.
+
+## 080_乐观更新排序
+- 主要实现了乐观更新排序
