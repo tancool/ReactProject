@@ -48,12 +48,9 @@ export const useDeleteKanban = (queryKey: QueryKey) => {
     )
 }
 export interface SortProps {
-    // 拿的项目的id
-    fromId?: number;
-    // 放在的位置
-    referenceId?: number;
-    // 在前面还是在后面
-    type: 'before' | 'after';
+    fromId?: number;// 要重新排序的item
+    referenceId?: number;// 目标 item
+    type: 'before' | 'after';// 放在目标item的前还是后
     fromKanbanId?: number;
     toKanbanId?: number
 }

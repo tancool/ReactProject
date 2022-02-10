@@ -30,17 +30,17 @@ export const KanbanScreen = () => {
                     :
                     <ColunmsContainer>
                         <Drop type={'COLUMN'} direction={"horizontal"} droppableId={'kanban'} >
-                            <DropChild>
+                            <DropChild style={{ display: 'flex' }}>
+
                                 {
-                                    kanbans.map((kanban, index) => (
-                                        <Drag
-                                            key={kanban.id}
-                                            draggableId={'kanban' + kanban.id}
-                                            index={index}
-                                        >
-                                            <KanbanColumn kanban={kanban} key={kanban.id} />)
-                                        </Drag>
-                                    )
+                                    kanbans.map((kanban, index) => <Drag
+                                        key={kanban.id}
+                                        draggableId={'kanban' + kanban.id}
+                                        index={index}
+                                    >
+                                        <KanbanColumn kanban={kanban} key={kanban.id} />
+                                    </Drag>
+
                                     )
                                 }
                             </DropChild>
@@ -79,6 +79,7 @@ export const useDragEnd = () => {
             reorderKanban({ fromId, referenceId: toId, type })
         }
         if (type === 'ROW') {
+            // 处理task的排序
             // 通过 + 转变为数字
             const fromKanbanId = +source.droppableId
             const toKanbanId = +destination.droppableId
@@ -102,11 +103,12 @@ export const useDragEnd = () => {
             })
 
         }
-    }, [allTasks, kanbans, reorderKanban, reorderTask])
+    }, [allTasks, kanbans, reorderKanban, reorderTask]
+    )
 }
-export const ColunmsContainer = styled.div`
+export const ColunmsContainer = styled('div')`
 display:flex;
-margin-right: 2rem;
+/* margin-right: 2rem; */
 flex:1;
 overflow-x:scroll;
 `

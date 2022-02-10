@@ -13,7 +13,7 @@ export const Drop = ({ children, ...props }: DropProps) => {
                     // 给所有的子元素都加上props属性
                     return React.cloneElement(children, {
                         ...provided.droppableProps,
-                        ref: provided.innerRef,
+                        ref: provided?.innerRef,
                         provided
                     })
                 }
@@ -28,7 +28,10 @@ export const Drop = ({ children, ...props }: DropProps) => {
 // 定义 ref 的泛型
 type DropChildProps = Partial<{ provided: DroppableProvided } & DroppableProvidedProps> & React.HtmlHTMLAttributes<HTMLDivElement>
 export const DropChild = React.forwardRef<HTMLDivElement, DropChildProps>(({ children, ...props }, ref) =>
-    <div ref={ref} {...props}>
+    <div
+        ref={ref}
+        {...props}
+    >
         {children}
         {/* api要求加的 */}
         {props.provided?.placeholder}

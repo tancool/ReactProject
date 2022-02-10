@@ -1297,4 +1297,8 @@ export const ErrorBox = ({ error }: { error: unknown }) => {
 
 ## 077_拖拽实现[下]
 
-## 078_托转持久化[上]
+## 078_拖拽持久化[上]
+- html自带的元素是可以进行转发ref的
+
+## 079_拖拽持久化[下]
+- 这块知识的前置知识应该是熟悉React以及react-beautiful-dnd.现在直接学习的话,理解起来梯度过大.
