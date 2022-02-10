@@ -129,7 +129,7 @@ export const useProject = (id?: number) => {
     const client = useHTTP()
     return useQuery<Project>(
         ['projet', { id }],
-        () => client(`projects/${id}`),
+        () => client(`projects/${id}`), 
         {
             enabled: !!id
         }

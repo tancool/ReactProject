@@ -1,7 +1,7 @@
 import { Kanban } from './../../types/kanban';
 import React from 'react';
 import { useTasks } from 'utils/task';
-import { useTasksSearchParams } from './util';
+import { useTaskModal, useTasksSearchParams } from './util';
 import { useTaskTypes } from 'utils/task-type';
 import taskIcon from 'assets/task.svg';
 import bugIcon from 'assets/bug.svg';
@@ -22,15 +22,17 @@ export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
     const tasks = allTasks?.filter(task => {
         return task.kanbanId === kanban.id
     })
-    console.log('查看相关的数据');
-    console.log(tasks);
-
+    const { startEdit } = useTaskModal()
 
     return <Container>
         <h2>{kanban.name}</h2>
         <TasksContainer>
             {tasks?.map(task =>
-                <Card style={{ marginBottom: '.5rem' }} key={task.id}>
+                <Card
+                    style={{ marginBottom: '.5rem',cursor:'pointer' }}
+                    key={task.id}
+                    onClick={() => startEdit(task.id)}
+                >
                     <div>
                         {task.name}
                     </div>
