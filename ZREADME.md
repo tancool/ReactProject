@@ -1337,3 +1337,8 @@ export const ErrorBox = ({ error }: { error: unknown }) => {
     - React.memo适合于比较耗费性能的组件.使用场景是比较少的.因为React.memo自身就已经耗费了性能.并且React本身已经非常快了.
 - React.memo和useMemo的区别
   - React.memo是针对的组件,useMemo是针对的值.
+  
+## 087_改变默认聚焦刷新设置
+- React自带了一个性能追踪的功能 Profiler
+  - 一个项目里可以有多个Profiler
+- 造成React会多次渲染是因为React Query的默认设置.在失去又得到焦点的时候,又会重新发送请求.

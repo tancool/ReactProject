@@ -32,7 +32,7 @@ export const List = React.memo(({ users, ...props }: ListProps) => {
     // const pinProject = (id: number, pin: boolean) => mutate({ id, pin }) // 这样把函数放在外面也是可以的.
     // const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin }).then(props.refresh) // props.refresh就是一个函数.这样写的话,就是直接调用这个函数.
     let num = 1
-    console.log('这里被重新渲染了');
+    // console.log('这里被重新渲染了');
 
     return <div>
         <Table

@@ -11,7 +11,8 @@ import { useProjects } from './../../utils/project';
 import { useUsers } from './../../utils/user';
 import { useUrlQueryParam } from 'utils/url';
 import { useProjectModal, useProjectsSearchParams } from './until';
-import { ButtonNoPadding } from 'components/lib';
+import { ButtonNoPadding, ScreenContainer } from 'components/lib';
+import { Profiler } from 'components/profiler';
 const apiUrl = process.env.REACT_APP_API_URL;
 /**
  * 这个需要使用Json-Server才能得到数据,这里做个备注.
@@ -63,23 +64,25 @@ export const ProjectListScreen = (
     // }); // 第三个参数是监听
 
     // const [value, setValue] = useState('')
-    return <Container>
-        {/* <input type="text" value={value} onChange={evt => setValue(evt.target.value)} /> */}
-        <Row justify={'space-between'}>
-            <h2>项目列表</h2>
-            {/* {props.projectButton} */}
-            {/* <Button onClick={() => console.log('我被触发了')}>创建项目</Button> */}
-            <ButtonNoPadding
-                type={'link'}
-                onClick={open}
-            >
-                创建项目
-            </ButtonNoPadding>
-        </Row>
-        <SearchPanel param={param} setParam={setParam} users={users || []}></SearchPanel>
-        {error ? <Typography.Text type={'danger'}>{error.message}</Typography.Text> : null}
-        <List dataSource={list || []} users={users || []} loading={isLoading}></List>
-    </Container>
+    return <Profiler id={'项目列表'}>
+        <ScreenContainer>
+            {/* <input type="text" value={value} onChange={evt => setValue(evt.target.value)} /> */}
+            <Row justify={'space-between'}>
+                <h2>项目列表</h2>
+                {/* {props.projectButton} */}
+                {/* <Button onClick={() => console.log('我被触发了')}>创建项目</Button> */}
+                <ButtonNoPadding
+                    type={'link'}
+                    onClick={open}
+                >
+                    创建项目
+                </ButtonNoPadding>
+            </Row>
+            <SearchPanel param={param} setParam={setParam} users={users || []}></SearchPanel>
+            {error ? <Typography.Text type={'danger'}>{error.message}</Typography.Text> : null}
+            <List dataSource={list || []} users={users || []} loading={isLoading}></List>
+        </ScreenContainer>
+    </Profiler>
 }
 const Container = styled.div`
 padding: 3.2rem;

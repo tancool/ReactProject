@@ -12,6 +12,7 @@ import { CreateKanban } from './create-kanban';
 import { TaskModal } from './task-modal';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd'
 import { Drag, Drop, DropChild } from 'components/drag-and-drop';
+import { Profiler } from 'components/profiler';
 export const KanbanScreen = () => {
     useDocumentTitle('看板列表')
     const { data: currentProject } = useProjectInUrl()
@@ -20,38 +21,40 @@ export const KanbanScreen = () => {
     const isLoading = taskIsLoading || kanbanIsLoading
     const onDragEnd = useDragEnd()// 这个回调中一般做持久化的工作
     return (
-        <DragDropContext onDragEnd={onDragEnd}>
-            <ScreenContainer>
-                <h1>{currentProject?.name}看板</h1>
-                <SearchPanel />
-                {isLoading ?
-                    <Spin size={'large'}>
-                    </Spin>
-                    :
-                    <ColunmsContainer>
-                        <Drop type={'COLUMN'} direction={"horizontal"} droppableId={'kanban'} >
-                            <DropChild style={{ display: 'flex' }}>
+        <Profiler id={'看板'}>
+            <DragDropContext onDragEnd={onDragEnd}>
+                <ScreenContainer>
+                    <h1>{currentProject?.name}看板</h1>
+                    <SearchPanel />
+                    {isLoading ?
+                        <Spin size={'large'}>
+                        </Spin>
+                        :
+                        <ColunmsContainer>
+                            <Drop type={'COLUMN'} direction={"horizontal"} droppableId={'kanban'} >
+                                <DropChild style={{ display: 'flex' }}>
 
-                                {
-                                    kanbans.map((kanban, index) => <Drag
-                                        key={kanban.id}
-                                        draggableId={'kanban' + kanban.id}
-                                        index={index}
-                                    >
-                                        <KanbanColumn kanban={kanban} key={kanban.id} />
-                                    </Drag>
+                                    {
+                                        kanbans.map((kanban, index) => <Drag
+                                            key={kanban.id}
+                                            draggableId={'kanban' + kanban.id}
+                                            index={index}
+                                        >
+                                            <KanbanColumn kanban={kanban} key={kanban.id} />
+                                        </Drag>
 
-                                    )
-                                }
-                            </DropChild>
-                        </Drop>
-                        <CreateKanban />
-                    </ColunmsContainer>
-                }
+                                        )
+                                    }
+                                </DropChild>
+                            </Drop>
+                            <CreateKanban />
+                        </ColunmsContainer>
+                    }
 
-                <TaskModal></TaskModal>
-            </ScreenContainer>
-        </DragDropContext >
+                    <TaskModal></TaskModal>
+                </ScreenContainer>
+            </DragDropContext >
+        </Profiler>
     )
 }
 
