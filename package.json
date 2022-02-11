@@ -32,7 +32,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "test": "carco test",
+    "test": "craco test",
     "eject": "react-scripts eject",
     "json-server": "json-server __json__server__mock__/db.json --watch --port 3001 --middlewares __json__server__mock__/middleware.js"
   },
@@ -55,6 +55,8 @@
     ]
   },
   "devDependencies": {
-    "@welldone-software/why-did-you-render": "^6.2.3"
+    "@testing-library/react-hooks": "^7.0.2",
+    "@welldone-software/why-did-you-render": "^6.2.3",
+    "msw": "^0.36.8"
   }
 }

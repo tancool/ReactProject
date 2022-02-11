@@ -1348,9 +1348,21 @@ export const ErrorBox = ({ error }: { error: unknown }) => {
 
 ## 089_自动化测试简介
 - 自动化测试的好处 => 让我们对自己写的代码更有信息,防止出现'新代码破坏旧代码'的无限循环
-- 分类
+- 分类 
   - 单元测试:传统单元测试 /  组件测试 / hook测试
+    - 传统单元测试就是类似于测试某个函数的功能的
   - 集成测试
   - e2e测试 (端对端测试. end to end )
   - 粒度是从上往下越来越大的
-## 传统单元测试
+## 090_传统单元测试
+- 依赖
+  - testing-library 已经被预先安装了
+  - @testing-library/react-hooks @testing-library/react-hooks msw也需要安装
+    - msw是mock服务器数据的.而单元测试是不应该去服务器真的请求数据的.
+      - 理论上来说,也是可以使用jsonserver请求数据的.但是json-server不是用来做这个事情的.
+- 在src下新建一个文件夹 __tests__
+  - 这个是约定俗成的名字.
+  - ject的默认设置也是该文件夹
+- 单元测试的整个环境都要求是自己可以控制的.
+  - 所有的请求都是mock的数据,不会是真正的发送出去.
+- 测试命令是 `npm run test`
