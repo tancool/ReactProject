@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // 当页面刷新的时候,默认就是null
     // const [user, setUser] = useState<User | null>(null); // 这一行被删除掉了
     const queryClient = useQueryClient()
-    const { data: user, error, isLoading, isIDle, isError, run, setData: setUser } = useAsync<User | null>()
+    const { data: user, error, isLoading, isIdle, isError, run, setData: setUser } = useAsync<User | null>()
     const login = (form: AuthForm) => auth.login(form).then(setUser);// 这里是一种简写方式,达到可消参的效果. [这个也是函数式编程中一个非常重要的概念,叫做point free
     const register = (form: AuthForm) => auth.register(form).then(setUser); // 这里是一种简写方式,达到可消参的效果
     const logout = () => auth.logout().then(user => {
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         // bootstarpUser().then(setUser);
         run(bootstarpUser());
     });
-    if (isIDle || isLoading) { // 初始的时候,或者加载的时候.
+    if (isIdle || isLoading) { // 初始的时候,或者加载的时候.
         return <FullPageLoading />
     }
     if (isError) {

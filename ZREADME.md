@@ -1366,3 +1366,5 @@ export const ErrorBox = ({ error }: { error: unknown }) => {
 - 单元测试的整个环境都要求是自己可以控制的.
   - 所有的请求都是mock的数据,不会是真正的发送出去.
 - 测试命令是 `npm run test`
+  
+## 091_自动化测试hook

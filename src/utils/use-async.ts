@@ -98,7 +98,7 @@ export const useAsync = <D>(initialState?: State<D>, initConfig?: typeof default
     // console.log(state);
     
     return {
-        isIDle: state.stat === 'idle',
+        isIdle: state.stat === 'idle',
         isLoading: state.stat == 'loading',
         isError: state.stat == 'error',
         isSuccess: state.stat == 'success',
