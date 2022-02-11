@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { BrowserRouter as Router } from "react-router-dom";
 import { AuthProvider } from "./auth-context";
 export const AppProviders = ({ children }: { children: ReactNode }) => {
     // 未来所有的App级别的Providers都会在这里面添加
@@ -8,10 +9,11 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
     // 这样相对来说,是比较容易阅读的.
     return (
         <QueryClientProvider client={new QueryClient()}>
-            <AuthProvider>
-                {children}
-            </AuthProvider>
+            <Router >
+                <AuthProvider>
+                    {children}
+                </AuthProvider>
+            </Router >
         </QueryClientProvider>
-
     )
 }

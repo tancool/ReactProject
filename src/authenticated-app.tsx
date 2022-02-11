@@ -22,7 +22,6 @@ export default () => {
             {/* 这个代表的是目前的整个登录后的状态 */}
             {/* 如果是直接使用方法名的话,还可以这么写的 */}
             <Container>
-                <Router>
                     <PageHeader />
                     <Main>
                         {/* <ProjectListScreen /> */}
@@ -43,7 +42,6 @@ export default () => {
                     </Main>
                     {/* 因为ProjectModal是在哪个层级都可以被打开的,页面层级比较高.所以放在页面层级比较高的上面是比较合适的 */}
                     <ProjectModal></ProjectModal>
-                </Router >
             </Container>
         </div>
     )

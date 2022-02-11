@@ -1371,3 +1371,23 @@ export const ErrorBox = ({ error }: { error: unknown }) => {
 - 在文件夹__tests__下的use-async下.
 ## 092_自动化测试组件
 - jest是一个测试的框架.
+    - 在文件夹下mark.tsx下
+- 这种测试粒度比较小.测试的单个组件
+## 093_用集成测试测试项目列表[上]
+- 集成测试测试的是组件之间的组合或者函数之间的组合.
+- 步骤
+  - 删除了app.tsx
+  - 并在setUpTest.ts中添加了
+  ```
+  window.matchMedia = window.matchMedia || function () {
+    return {
+        matches: function () { },
+        removeListener: function () { }
+    }
+}
+  ```
+
+
+- create-react-app中有一个限制.是不可以引用src文件夹之外的内容
+- 这里集成测试,失败了.可能是由于代码细节和老师实际写的不一样.
+  - 但是测试逻辑代码是一致的.

@@ -4,7 +4,8 @@ export const isFalsy = (value: unknown) => value === 0 ? false : !value;
 // 在一个函数里,改变传入的对象本身是不好的行为.不要去改变原对象
 
 export const isVoid = (value: unknown) => value == undefined || value == null || value == ''; // 解决会误删除false的bug
-export const cleanObject = (object: { [key: string]: unknown }) => {
+export const cleanObject = (object?: { [key: string]: unknown }) => {
+    if (!object) return {}
     const result = { ...object }; // 这个是等价于 Object.assign({},object);
 
     Object.keys(result).forEach(key => {
