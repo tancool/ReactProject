@@ -1320,3 +1320,9 @@ export const ErrorBox = ({ error }: { error: unknown }) => {
     - 成本最低的方式是部署到githubpages上.
 - 推荐直接部署到以及页面上,部署到二级页面上会导致路有冲突.有些麻烦.
   - 并且介绍了如何推送到github的静态页面上.  
+
+## 用代码分割优化性能
+- 使用useCallBack以及useMemo
+- 打包的时候,使用代码分割
+  - 在react使用 import(filePath)会自动进行代码分割.使用Create React App 即是开箱即用.
+  - 以及react-lazy => 其实是异步加载代码.使用代码的时候,再进行加载.

@@ -7,7 +7,7 @@ import logo from 'assets/logo.svg'
 import left from 'assets/left.svg'
 import right from 'assets/right.svg'
 import { useDocumentTitle } from "utils"
-export const UnaurhenticatedApp = () => {
+export default () => {
     const [isRegister, setIsRegister] = useState(false)
     const [error, setError] = useState<Error | null>(null)
     useDocumentTitle('请登录,以继续')

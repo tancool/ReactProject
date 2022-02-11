@@ -15,7 +15,7 @@ import ProjectModal from './screens/project-list/project-modal';
 import { ProjectPopover } from './components/project-popover';
 import { UserPopover } from 'components/user-popover';
 // 这就意味着这个图片是一个组件
-export const AuthenticateApp = () => {
+export default () => {
     // const [projectModalOpen, setProjectModalOpen] = useState(false)
     return (
         <div>
