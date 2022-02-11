@@ -1362,9 +1362,12 @@ export const ErrorBox = ({ error }: { error: unknown }) => {
       - 理论上来说,也是可以使用jsonserver请求数据的.但是json-server不是用来做这个事情的.
 - 在src下新建一个文件夹 __tests__
   - 这个是约定俗成的名字.
-  - ject的默认设置也是该文件夹
+  - jest的默认设置也是该文件夹
 - 单元测试的整个环境都要求是自己可以控制的.
   - 所有的请求都是mock的数据,不会是真正的发送出去.
 - 测试命令是 `npm run test`
   
 ## 091_自动化测试hook
+- 在文件夹__tests__下的use-async下.
+## 092_自动化测试组件
+- jest是一个测试的框架.
