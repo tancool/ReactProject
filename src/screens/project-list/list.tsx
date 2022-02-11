@@ -24,7 +24,7 @@ interface ListProps extends TableProps<Project> {
     users: User[],
     refresh?: () => void
 }
-export const List = ({ users, ...props }: ListProps) => {
+export const List = React.memo(({ users, ...props }: ListProps) => {
     const { mutate } = useEditProject(useProjectsQueryKey()) // 这样就得到了mutate函数
     const { startEdit } = useProjectModal()
     const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin })
@@ -32,6 +32,8 @@ export const List = ({ users, ...props }: ListProps) => {
     // const pinProject = (id: number, pin: boolean) => mutate({ id, pin }) // 这样把函数放在外面也是可以的.
     // const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin }).then(props.refresh) // props.refresh就是一个函数.这样写的话,就是直接调用这个函数.
     let num = 1
+    console.log('这里被重新渲染了');
+
     return <div>
         <Table
             pagination={false}
@@ -101,7 +103,7 @@ export const List = ({ users, ...props }: ListProps) => {
         >
         </Table >
     </div>
-}
+})
 
 
 const More = ({ project }: { project: Project }) => {
@@ -114,7 +116,7 @@ const More = ({ project }: { project: Project }) => {
             content: 'Are you sure you want to delete this project?',
             okText: '确定',
             onOk() {
-                deleteProject({id})
+                deleteProject({ id })
             }
         })
     )

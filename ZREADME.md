@@ -1321,8 +1321,19 @@ export const ErrorBox = ({ error }: { error: unknown }) => {
 - 推荐直接部署到以及页面上,部署到二级页面上会导致路有冲突.有些麻烦.
   - 并且介绍了如何推送到github的静态页面上.  
 
-## 用代码分割优化性能
+## 085_用代码分割优化性能
 - 使用useCallBack以及useMemo
 - 打包的时候,使用代码分割
   - 在react使用 import(filePath)会自动进行代码分割.使用Create React App 即是开箱即用.
   - 以及react-lazy => 其实是异步加载代码.使用代码的时候,再进行加载.
+
+## 086_使用ReactMemo优化组件性能
+- React默认的行为:父组件的state修改状态,子组件会重新被渲染[无论状态是否会对子组件造成影响].
+  - 如何避免
+    - 使用 React.memo(). 和自己无关的状态发生改变的时候,会避免被渲染.
+      - 被React.memo包裹的组件只有在两种情况下会被渲染.
+        - 浅对比Props.
+        - 使用全局状态的redux.
+    - React.memo适合于比较耗费性能的组件.使用场景是比较少的.因为React.memo自身就已经耗费了性能.并且React本身已经非常快了.
+- React.memo和useMemo的区别
+  - React.memo是针对的组件,useMemo是针对的值.
