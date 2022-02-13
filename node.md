@@ -1391,3 +1391,5 @@ export const ErrorBox = ({ error }: { error: unknown }) => {
 - create-react-app中有一个限制.是不可以引用src文件夹之外的内容
 - 这里集成测试,失败了.可能是由于代码细节和老师实际写的不一样.
   - 但是测试逻辑代码是一致的.
+
+## 093_用集成测试测试项目列表[下]
